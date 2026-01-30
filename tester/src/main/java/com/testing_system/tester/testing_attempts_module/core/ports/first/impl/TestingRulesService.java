@@ -4,6 +4,7 @@ package com.testing_system.tester.testing_attempts_module.core.ports.first.impl;
 
 import com.testing_system.tester.testing_attempts_module.core.domain.TestingRules;
 import com.testing_system.tester.testing_attempts_module.core.ports.first.TestingRulesUseCase;
+import com.testing_system.tester.testing_attempts_module.core.ports.first.exeptions.NoRulesException;
 import com.testing_system.tester.testing_attempts_module.core.ports.second.TestAttemptDrivenUseCase;
 import com.testing_system.tester.testing_attempts_module.core.ports.second.TestingRulesDrivenUseCase;
 
@@ -11,7 +12,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import java.time.LocalDate;
 import java.util.NoSuchElementException;
-import java.util.Optional;
+
 
 
 // Класс оркестратор для правил проведения тестирования
@@ -40,15 +41,17 @@ public class TestingRulesService implements TestingRulesUseCase {
     }
 
     @Override
-    public Optional<TestingRules> getTestingRules(String currentTestName) {
-        return secondPort.getTestRules(currentTestName);
+    public TestingRules getTestingRules(String currentTestName) throws NoRulesException{
+        return secondPort.getTestRules(currentTestName).orElseThrow(
+                () -> new NoRulesException("Testing rules not found! Test name: " + currentTestName));
     }
 
+    // Можно использовать предыдущую функцию
     @Override
-    public void changeDayAttempts(String currentTestName, Integer newNumber) {
+    public void changeDayAttempts(String currentTestName, Integer newNumber) throws NoRulesException {
 
         var currentRules = secondPort.getTestRules(currentTestName).orElseThrow(
-                () -> new NoSuchElementException("Testing rules not found! Test name: " + currentTestName));
+                () -> new NoRulesException("Testing rules not found! Test name: " + currentTestName));
 
         currentRules.setDayAttempts(newNumber);
         secondPort.saveRules(currentRules);
@@ -57,10 +60,10 @@ public class TestingRulesService implements TestingRulesUseCase {
     }
 
     @Override
-    public void changeAllAttempts(String currentTestName, Integer newNumber) {
+    public void changeAllAttempts(String currentTestName, Integer newNumber) throws NoRulesException {
 
         var currentRules = secondPort.getTestRules(currentTestName).orElseThrow(
-                () -> new NoSuchElementException("Testing rules not found! Test name: " + currentTestName));
+                () -> new NoRulesException("Testing rules not found! Test name: " + currentTestName));
 
         currentRules.setAllAttempts(newNumber);
         secondPort.saveRules(currentRules);
@@ -74,6 +77,8 @@ public class TestingRulesService implements TestingRulesUseCase {
                 () -> new NoSuchElementException("Testing rules not found! Test name: " + currentTestName));
 
         var allAttempts = attemptSecondPort.getAllAttemptsForStudent(currentTestName, currentStudentId);
+
+        if (allAttempts.isEmpty()) return true;
 
         var dayAttempts = allAttempts.stream().filter(
                 attempt -> attempt.getDate().equals(LocalDate.now())).toList();
@@ -89,7 +94,8 @@ public class TestingRulesService implements TestingRulesUseCase {
 
         var allAttempts = attemptSecondPort.getAllAttemptsForStudent(currentTestName, currentStudentId);
 
+        if (allAttempts.isEmpty()) return false;
 
-        return currentRules.getAllAttempts().equals(allAttempts.size()) && allAttempts.stream().anyMatch(attempt -> attempt.getMark()<3);
+        return currentRules.getAllAttempts().equals(allAttempts.size()) && allAttempts.stream().noneMatch(attempt -> attempt.getMark()>=3);
     }
 }

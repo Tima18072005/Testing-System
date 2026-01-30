@@ -1,6 +1,7 @@
 package com.testing_system.tester.testing_attempts_module.core.ports.first;
 
 import com.testing_system.tester.testing_attempts_module.core.domain.TestingRules;
+import com.testing_system.tester.testing_attempts_module.core.ports.first.exeptions.NoRulesException;
 
 import java.util.Optional;
 
@@ -15,13 +16,13 @@ public interface TestingRulesUseCase {
 
     // Доступ к данным
 
-    public Optional<TestingRules> getTestingRules(String currentTestName);
+    public TestingRules getTestingRules(String currentTestName) throws NoRulesException;
 
     // Изменение правил
 
-    public void changeDayAttempts(String currentTestName, Integer newNumber);
+    public void changeDayAttempts(String currentTestName, Integer newNumber) throws NoRulesException;
 
-    public void changeAllAttempts(String currentTestName, Integer newNumber);
+    public void changeAllAttempts(String currentTestName, Integer newNumber) throws NoRulesException;
 
     // Валидация перед прохождением (не превышено ли количество попыток)
 

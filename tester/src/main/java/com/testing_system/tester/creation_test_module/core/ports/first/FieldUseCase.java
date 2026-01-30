@@ -10,7 +10,7 @@ public interface FieldUseCase {
 
     public List<Field> getAllFieldNames();
 
-    public Optional<Field> getFieldByName(String currentFieldName);
+    public Field getFieldByName(String currentFieldName);
 
     public Field makeNewField(Field currentField);
 

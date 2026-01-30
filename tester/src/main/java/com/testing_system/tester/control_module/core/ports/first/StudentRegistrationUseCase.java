@@ -21,7 +21,7 @@ public interface StudentRegistrationUseCase {
 
     // Функции для получения данных
 
-    public Optional<Student> getStudentById(Integer currentStudentId);
+    public Student getStudentById(Integer currentStudentId);
 
     public List<Student> getAllStudents();
 
@@ -31,5 +31,5 @@ public interface StudentRegistrationUseCase {
 
     public List<Group> getAllGroups();
 
-    public Optional<Group> getGroupByName(String currentGroupName);
+    public Group getGroupByName(String currentGroupName);
 }

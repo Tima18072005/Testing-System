@@ -16,7 +16,7 @@ public interface TestUseCase {
 
     // Поиск данных
 
-    public Optional<Test> getTestByName(String currentTestName);
+    public Test getTestByName(String currentTestName);
 
     public List<Test> getAllTests();
 

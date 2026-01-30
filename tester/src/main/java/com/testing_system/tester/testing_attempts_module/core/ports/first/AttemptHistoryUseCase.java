@@ -1,6 +1,7 @@
 package com.testing_system.tester.testing_attempts_module.core.ports.first;
 
 import com.testing_system.tester.testing_attempts_module.core.domain.TestAttempt;
+import com.testing_system.tester.testing_attempts_module.core.ports.first.exeptions.NoHistoryException;
 
 import java.util.List;
 import java.util.Map;
@@ -16,9 +17,9 @@ public interface AttemptHistoryUseCase {
 
     // Доступ к данным (могут возвращать пустые списки)
 
-    public List<TestAttempt> getTestingHistory(String currentTestName);
+    public List<TestAttempt> getTestingHistory(String currentTestName) throws NoHistoryException;
 
-    public List<TestAttempt> getStudentTestingHistory(String currentTestName, Integer currentStudentId);
+    public List<TestAttempt> getStudentTestingHistory(String currentTestName, Integer currentStudentId) throws NoHistoryException;
 
     // Фильтрация переданных ID тестов для отображения главной страницы программы
 

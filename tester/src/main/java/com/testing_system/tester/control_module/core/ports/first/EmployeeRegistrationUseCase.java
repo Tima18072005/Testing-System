@@ -11,7 +11,7 @@ public interface EmployeeRegistrationUseCase {
 
     // Функции поиска
 
-    public Optional<Employee> findEmpById(Integer currentId);
+    public Employee findEmpById(Integer currentId);
 
     public List<Employee> findEmpByName(String currentFirstName, String currentLastName);
 

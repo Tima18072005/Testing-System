@@ -26,7 +26,7 @@ public interface TestVersionUseCase {
 
     // По отдельности получение метаданных и списка вопросов/ответов, в сервисе-оркестраторе будет объединённый метод
 
-    public Optional<TestVersion> getVersionMetaDataById(Integer currentVersionId);
+    public TestVersion getVersionMetaDataById(Integer currentVersionId);
 
     public Map<Question, List<Answer>> getVersionContentById(Integer currentVersionId);
 
