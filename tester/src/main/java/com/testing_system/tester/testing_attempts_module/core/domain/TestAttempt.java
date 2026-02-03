@@ -16,24 +16,27 @@ public class TestAttempt {
 
     private final Integer mark;
 
+    private final Integer mark5;
+
     private final LocalDate date;
 
     private final String IP;
 
     // Конструктор
     public TestAttempt(
-    Integer currentAttemptId,
-    Integer currentTesterId,
-    String currentTestName,
-    Integer currentMark,
-    LocalDate currentDate,
-    String currentIP
+            Integer currentAttemptId,
+            Integer currentTesterId,
+            String currentTestName,
+            Integer currentMark, Integer mark5,
+            LocalDate currentDate,
+            String currentIP
     )
     {
         this.attemptId = currentAttemptId;
         this.testerId = currentTesterId;
         this.testName = currentTestName;
         this.mark = currentMark;
+        this.mark5 = mark5;
         this.date = currentDate;
         this.IP = currentIP;
     }
@@ -64,5 +67,9 @@ public class TestAttempt {
 
     public String getIP() {
         return IP;
+    }
+
+    public Integer getMark5() {
+        return mark5;
     }
 }

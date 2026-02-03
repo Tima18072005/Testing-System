@@ -12,7 +12,7 @@ public interface TestAttemptDrivenUseCase {
 
     public List<TestAttempt> getAllAttemptsForTest(String currentTestName);
 
-    // Конвенция явно нарушена с целью демонстрации гибкости подхода (разобрать правильность конвенции)
+    // Метод добавлен сразу для, так-как студенты будут часто обращаться к своим оценкам. Это отображает мои конвенции в действии
     public List<TestAttempt> getAllAttemptsForStudent(String currentTestName, Integer currentStudentId);
 
     public void saveAttempt(TestAttempt currentAttempt);

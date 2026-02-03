@@ -4,14 +4,14 @@ package com.testing_system.tester.testing_attempts_module.core.ports.first.impl;
 
 import com.testing_system.tester.testing_attempts_module.core.domain.TestingRules;
 import com.testing_system.tester.testing_attempts_module.core.ports.first.TestingRulesUseCase;
-import com.testing_system.tester.testing_attempts_module.core.ports.first.exeptions.NoRulesException;
+import com.testing_system.tester.testing_attempts_module.core.ports.first.exceptions.NoRulesException;
 import com.testing_system.tester.testing_attempts_module.core.ports.second.TestAttemptDrivenUseCase;
 import com.testing_system.tester.testing_attempts_module.core.ports.second.TestingRulesDrivenUseCase;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import java.time.LocalDate;
-import java.util.NoSuchElementException;
+
 
 
 
@@ -32,26 +32,38 @@ public class TestingRulesService implements TestingRulesUseCase {
 
     @Override
     public void makeTestingRules(TestingRules currentTestRules) {
+
+        if (secondPort.getTestRules(currentTestRules.getTestName()).isPresent())
+            throw new IllegalStateException("Error! This rules is exist! Test name: "
+                    + currentTestRules.getTestName());
+
         secondPort.saveRules(currentTestRules);
     }
 
+    // Возможно не будет использоваться при использовании Spring Boot
     @Override
     public void deleteTestingRules(String currentTestName) {
+
+        if (secondPort.getTestRules(currentTestName).isEmpty())
+            throw new IllegalStateException("Error! You can't delete non-existent rules. Test");
+
         secondPort.deleteRules(currentTestName);
     }
 
     @Override
-    public TestingRules getTestingRules(String currentTestName) throws NoRulesException{
+    public TestingRules getTestingRules(String currentTestName) {
         return secondPort.getTestRules(currentTestName).orElseThrow(
                 () -> new NoRulesException("Testing rules not found! Test name: " + currentTestName));
     }
 
-    // Можно использовать предыдущую функцию
-    @Override
-    public void changeDayAttempts(String currentTestName, Integer newNumber) throws NoRulesException {
+    /*
+    Может кидать NoRulesException
+    */
 
-        var currentRules = secondPort.getTestRules(currentTestName).orElseThrow(
-                () -> new NoRulesException("Testing rules not found! Test name: " + currentTestName));
+    @Override
+    public void changeDayAttempts(String currentTestName, Integer newNumber)  {
+
+        var currentRules = getTestingRules(currentTestName);
 
         currentRules.setDayAttempts(newNumber);
         secondPort.saveRules(currentRules);
@@ -59,38 +71,44 @@ public class TestingRulesService implements TestingRulesUseCase {
 
     }
 
+    /*
+    Может кидать NoRulesException
+    */
     @Override
-    public void changeAllAttempts(String currentTestName, Integer newNumber) throws NoRulesException {
+    public void changeAllAttempts(String currentTestName, Integer newNumber) {
 
-        var currentRules = secondPort.getTestRules(currentTestName).orElseThrow(
-                () -> new NoRulesException("Testing rules not found! Test name: " + currentTestName));
+        var currentRules = getTestingRules(currentTestName);
 
         currentRules.setAllAttempts(newNumber);
         secondPort.saveRules(currentRules);
         logger.info("All attempts changed! Test name: {}", currentTestName);
     }
 
+    /*
+    Может кидать NoRulesException
+    */
     @Override
     public boolean wasTestingToDay(String currentTestName, Integer currentStudentId) {
 
-        var currentRules = secondPort.getTestRules(currentTestName).orElseThrow(
-                () -> new NoSuchElementException("Testing rules not found! Test name: " + currentTestName));
+        var currentRules = getTestingRules(currentTestName);
 
         var allAttempts = attemptSecondPort.getAllAttemptsForStudent(currentTestName, currentStudentId);
 
-        if (allAttempts.isEmpty()) return true;
+        if (allAttempts.isEmpty()) return false;
 
-        var dayAttempts = allAttempts.stream().filter(
+        var toDayAttempts = allAttempts.stream().filter(
                 attempt -> attempt.getDate().equals(LocalDate.now())).toList();
 
-        return dayAttempts.size() < currentRules.getDayAttempts();
+        return toDayAttempts.size() >= currentRules.getDayAttempts();
     }
 
+    /*
+    Может кидать NoRulesException
+    */
     @Override
     public boolean isLastAttempt(String currentTestName, Integer currentStudentId) {
 
-        var currentRules = secondPort.getTestRules(currentTestName).orElseThrow(
-                () -> new NoSuchElementException("Testing rules not found! Test name: " + currentTestName));
+        var currentRules = getTestingRules(currentTestName);
 
         var allAttempts = attemptSecondPort.getAllAttemptsForStudent(currentTestName, currentStudentId);
 

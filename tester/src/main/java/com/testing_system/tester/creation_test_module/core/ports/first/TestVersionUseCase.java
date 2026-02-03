@@ -6,7 +6,7 @@ import com.testing_system.tester.creation_test_module.core.domain.TestVersion;
 
 import java.util.List;
 import java.util.Map;
-import java.util.Optional;
+
 
 // Первичный порт для работы с версиями теста
 public interface TestVersionUseCase {
@@ -18,7 +18,7 @@ public interface TestVersionUseCase {
             Map<Question, List<Answer>> newVersionContent
     );
 
-    public void deleteVersion(Integer currentVersionId);
+    public void deleteVersion(String currentTestName, Integer currentVersionId);
 
     // Получение данных о версии
 
@@ -40,6 +40,5 @@ public interface TestVersionUseCase {
 
     public void makeReady(Integer currentVersionId);
 
-    // Расчет оценки (нужен репозиторий для доступа к ответам)
-    public Integer calculateMark(List<Integer> currentAnswerIds);
+
 }

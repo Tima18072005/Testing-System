@@ -8,7 +8,7 @@ import java.util.List;
 import java.util.Optional;
 
 // Вторичный порт для работы с метаданными тестов
-public interface TestDrivenInterface {
+public interface TestDrivenUseCase {
 
     public List<Test> getAllTests();
 

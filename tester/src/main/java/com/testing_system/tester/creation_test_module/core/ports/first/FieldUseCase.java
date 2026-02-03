@@ -1,6 +1,7 @@
 package com.testing_system.tester.creation_test_module.core.ports.first;
 
 import com.testing_system.tester.creation_test_module.core.domain.Field;
+import com.testing_system.tester.creation_test_module.core.ports.first.exceptions.NoFieldException;
 
 import java.util.List;
 import java.util.Optional;
@@ -12,7 +13,7 @@ public interface FieldUseCase {
 
     public Field getFieldByName(String currentFieldName);
 
-    public Field makeNewField(Field currentField);
+    public void makeNewField(Field currentField);
 
     public void deleteField(String currentFieldName);
 

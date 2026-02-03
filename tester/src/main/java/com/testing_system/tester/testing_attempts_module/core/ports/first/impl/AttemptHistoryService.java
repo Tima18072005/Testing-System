@@ -2,7 +2,7 @@ package com.testing_system.tester.testing_attempts_module.core.ports.first.impl;
 
 import com.testing_system.tester.testing_attempts_module.core.domain.TestAttempt;
 import com.testing_system.tester.testing_attempts_module.core.ports.first.AttemptHistoryUseCase;
-import com.testing_system.tester.testing_attempts_module.core.ports.first.exeptions.NoHistoryException;
+import com.testing_system.tester.testing_attempts_module.core.ports.first.exceptions.NoHistoryException;
 import com.testing_system.tester.testing_attempts_module.core.ports.second.TestAttemptDrivenUseCase;
 
 import java.util.List;
@@ -25,12 +25,22 @@ public class AttemptHistoryService implements AttemptHistoryUseCase {
     }
 
     @Override
-    public void deleteAttempt(Integer currentAttemptId) {
-        secondPort.deleteAttempt(currentAttemptId);
+    public void deleteAttemptHistory(String currentTestName) {
+
+        var currentHistory = secondPort.getAllAttemptsForTest(currentTestName);
+
+        if (currentHistory.isEmpty())
+            throw new IllegalStateException("Error! You can't delete non-exist history! Test name: "
+                    + currentTestName);
+
+        List<Integer> currentIDS = currentHistory.stream().map(TestAttempt::getAttemptId).toList();
+
+        for (Integer id: currentIDS) secondPort.deleteAttempt(id);
     }
 
+
     @Override
-    public List<TestAttempt> getTestingHistory(String currentTestName) throws NoHistoryException {
+    public List<TestAttempt> getTestingHistory(String currentTestName) {
 
         var currentTestHistory = secondPort.getAllAttemptsForTest(currentTestName);
 
@@ -40,13 +50,15 @@ public class AttemptHistoryService implements AttemptHistoryUseCase {
         return currentTestHistory;
     }
 
+    // Не использует предыдущий метод. Сразу понятно, что нужно расширить вторичный порт
     @Override
-    public List<TestAttempt> getStudentTestingHistory(String currentTestName, Integer currentStudentId) throws NoHistoryException {
+    public List<TestAttempt> getStudentTestingHistory(String currentTestName, Integer currentStudentId) {
 
         var currentStudentHistory = secondPort.getAllAttemptsForStudent(currentTestName, currentStudentId);
 
         if (currentStudentHistory.isEmpty()) throw new NoHistoryException(
-                "Testing History is not found! Test name: " + currentTestName);
+                "Testing History is not found! Test name: " + currentTestName
+                        + ". Student ID: " + currentStudentId);
 
         return currentStudentHistory;
     }
@@ -54,11 +66,13 @@ public class AttemptHistoryService implements AttemptHistoryUseCase {
     @Override
     public Map.Entry<List<String>, List<String>> testsFilter(Integer currentStudentId, List<String> currentTestsAssignations) {
 
-        Map<String, List<TestAttempt>> allAttempts = currentTestsAssignations.stream().collect(Collectors.toMap(
-                s -> s,
-                s -> secondPort.getAllAttemptsForStudent(s, currentStudentId)));
+        // Хеш-мапа (ключ - имя теста, значение - список с прохождениями)
+        Map<String, List<TestAttempt>> allAttempts = currentTestsAssignations.stream()
+                .collect(Collectors.toMap(
+                        assign-> assign,
+                        assign -> secondPort.getAllAttemptsForStudent(assign, currentStudentId)));
 
-        // Разобрать лучше Stream Api и понять правильность конвенции о вторичных портах
+
         List<String> passedTests = allAttempts.entrySet().stream()
                 .filter(entry ->
                         entry.getValue().stream().anyMatch(

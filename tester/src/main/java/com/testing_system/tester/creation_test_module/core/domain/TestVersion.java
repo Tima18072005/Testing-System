@@ -13,12 +13,9 @@ public class TestVersion {
 
     private final Integer versionAuthor;// В диаграмме прямая ссылка на объект Employee, исправить
 
-    // Статус версии (означает готовность)
-    // Если при редактировании версии меняется только статус, то черновая версия удаляется из списка
-    // Это раелизуется в сервисе
-    private final VersionStatus versionStatus;
+    private VersionStatus versionStatus;
 
-    private final LocalDate creationDate;
+    private LocalDate creationDate;
 
     // Конструктор
     public TestVersion(
@@ -36,7 +33,6 @@ public class TestVersion {
         this.creationDate = currentCreationDate;
 
     }
-
 
     // Геттеры
 
@@ -60,6 +56,15 @@ public class TestVersion {
         return versionStatus;
     }
 
+    // Установка статуса
 
+    public void setDraft(){ this.versionStatus = VersionStatus.DRAFT;}
 
+    public void setReady() {this.versionStatus = VersionStatus.READY;}
+
+    // Установка даты
+
+    public void setCreationDate(LocalDate creationDate) {
+        this.creationDate = creationDate;
+    }
 }

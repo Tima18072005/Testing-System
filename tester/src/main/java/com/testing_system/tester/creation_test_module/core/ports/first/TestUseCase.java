@@ -1,6 +1,7 @@
 package com.testing_system.tester.creation_test_module.core.ports.first;
 
 import com.testing_system.tester.creation_test_module.core.domain.Test;
+import com.testing_system.tester.creation_test_module.core.ports.first.exceptions.NoTestException;
 
 import java.util.List;
 import java.util.Optional;
@@ -16,7 +17,7 @@ public interface TestUseCase {
 
     // Поиск данных
 
-    public Test getTestByName(String currentTestName);
+    public Test getTestByName(String currentTestName) ;
 
     public List<Test> getAllTests();
 
@@ -26,11 +27,11 @@ public interface TestUseCase {
 
     // Добавить/убрать соавтора
 
-    public void makeCoAuthor(String currentTestName, Integer currentCoAuthorId);
+    public void makeCoAuthor(String currentTestName, Integer currentCoAuthorId) ;
 
-    public void deleteCoAuthor(String currentTestName, Integer currentCoAuthorId);
+    public void deleteCoAuthor(String currentTestName, Integer currentCoAuthorId);// Возможно добавить исключение
 
     // Изменить размер батча вопросов при прохождении
 
-    public void changeQuestionBatch(Integer newBatchSize);
+    public void changeQuestionBatch(String currentTestName, Integer newBatchSize);
 }
