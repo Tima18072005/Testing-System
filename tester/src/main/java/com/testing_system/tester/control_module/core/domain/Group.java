@@ -8,6 +8,8 @@ public class Group {
     // Номер группы
     private String groupNumber;
 
+
+
     // Назначенные тесты
     private List<String> tests;
 
@@ -19,6 +21,7 @@ public class Group {
     public Group(String currentGroupNumber){
 
         this.groupNumber = currentGroupNumber;
+
         this.tests = new ArrayList<>();
         this.fields = new ArrayList<>();
     }
@@ -62,6 +65,5 @@ public class Group {
     public void removeField(String currentFieldName){
         this.fields.remove(currentFieldName);
     }
-
 
 }

@@ -6,12 +6,19 @@ import com.testing_system.tester.control_module.core.domain.Employee;
 import java.util.List;
 import java.util.Optional;
 
-// Вторичный порт для работы с данными сотрудника
+/*
+ Вторичный порт.
+ Выполняемые задачи:
+  - Базовые CRUD операции
+  - Поиск админа в базах данных
+ */
 public interface EmployeeDrivenUseCase {
 
     public List<Employee> getAllEmployee();
 
     public Optional<Employee> getEmployee(Integer currentId);
+
+    public Optional<Employee> getAdmin();
 
     public void saveEmployee(Employee currentEmployee);
 

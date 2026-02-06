@@ -44,7 +44,7 @@ public class TestVersionService implements TestVersionUseCase {
         var allVersion = getAllTestVersion(newVersion.getTestName());
 
         if (allVersion.stream().map(TestVersion::getVersionId).anyMatch(id ->id.equals(newVersion.getVersionId()))) {
-            throw new IllegalStateException("Error! You can't save version with same ids! Test name: "
+            throw new IllegalArgumentException("Error! You can't save version with same ids! Test name: "
                     + newVersion.getVersionId() +
                     ". Version id: " + newVersion.getVersionId());
         }
@@ -149,6 +149,5 @@ public class TestVersionService implements TestVersionUseCase {
         logger.info("Metadata for {} was successfully changed! Version {} is ready", currentVersion.getTestName(), currentVersionId);
 
     }
-
 
 }

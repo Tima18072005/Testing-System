@@ -34,7 +34,7 @@ public class FieldService implements FieldUseCase {
     public void makeNewField(Field currentField) {
 
         if (secondPort.getField(currentField.getFieldName()).isPresent())
-            throw new IllegalStateException("Error! This field is exist! Field name: " + currentField.getFieldName());
+            throw new IllegalArgumentException("Error! This field is exist! Field name: " + currentField.getFieldName());
 
         secondPort.saveField(currentField);
     }
@@ -43,7 +43,7 @@ public class FieldService implements FieldUseCase {
     public void deleteField(String currentFieldName) {
 
         if (secondPort.getField(currentFieldName).isEmpty())
-            throw new IllegalStateException("Error! You can't delete non-existent field! Field name: "
+            throw new IllegalArgumentException("Error! You can't delete non-existent field! Field name: "
                     + currentFieldName);
 
         secondPort.deleteField(currentFieldName);

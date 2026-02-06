@@ -25,7 +25,7 @@ public class TestService implements TestUseCase {
     public void makeTest(Test currentTest) {
 
         if (secondPort.getTest(currentTest.getTestName()).isPresent())
-            throw new IllegalStateException("Error! This test is exist! Test name: "
+            throw new IllegalArgumentException("Error! This test is exist! Test name: "
                     + currentTest.getTestName());
 
         secondPort.saveTest(currentTest);
@@ -35,7 +35,7 @@ public class TestService implements TestUseCase {
     public void deleteTest(String currentTestName) {
 
         if (secondPort.getTest(currentTestName).isEmpty())
-            throw new IllegalStateException("Error! You can't delete non-existent test! Test name: "
+            throw new IllegalArgumentException("Error! You can't delete non-existent test! Test name: "
                     + currentTestName);
 
         secondPort.deleteTest(currentTestName);
@@ -84,7 +84,7 @@ public class TestService implements TestUseCase {
 
         var currentTest = getTestByName(currentTestName);
 
-        if (currentTest.getCo_authorsIds().contains(currentCoAuthorId)) throw new IllegalStateException(
+        if (currentTest.getCo_authorsIds().contains(currentCoAuthorId)) throw new IllegalArgumentException(
                 "Error! You can't assign employee twice! Employee id: " + currentCoAuthorId + ", Test id: " + currentTestName);
 
         currentTest.addCoAuthor(currentCoAuthorId);
@@ -102,7 +102,7 @@ public class TestService implements TestUseCase {
 
         var currentTest = getTestByName(currentTestName);
 
-        if (!currentTest.getCo_authorsIds().contains(currentCoAuthorId)) throw new IllegalStateException(
+        if (!currentTest.getCo_authorsIds().contains(currentCoAuthorId)) throw new IllegalArgumentException(
                 "Error! You can't delete employee twice! Employee id: " + currentCoAuthorId + ", Test id: " + currentTestName);
 
         currentTest.removeCoAuthor(currentCoAuthorId);

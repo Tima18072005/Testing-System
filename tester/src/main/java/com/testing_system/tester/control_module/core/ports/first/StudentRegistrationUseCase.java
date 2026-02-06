@@ -4,22 +4,26 @@ import com.testing_system.tester.control_module.core.domain.Group;
 import com.testing_system.tester.control_module.core.domain.Student;
 
 import java.util.List;
-import java.util.Optional;
 
-// Первичный порт регистрирования студентов
+
+/*
+ Первичный порт.
+ Выполняемые задачи:
+  - CRUD с учетными записями студентов и групп (удаление студента предполагает каскадирование)
+  - Фильтрация запрашиваемых данных
+  - Валидация названия группы
+ */
 public interface StudentRegistrationUseCase {
-
-    // Функции для добавления/удаления учёнтых записей
 
     public void regStudent(Student currentStudent);
 
     public void makeGroup(Group currentGroup);
 
+    public boolean validGroup(String currentGroup);
+
     public void deleteStudent(Integer currentStudentId);
 
     public void deleteGroup(String currentGroupNum);
-
-    // Функции для получения данных
 
     public Student getStudentById(Integer currentStudentId);
 
@@ -28,6 +32,10 @@ public interface StudentRegistrationUseCase {
     public List<Student> getStudentsByGroup(String currentGroupNum);
 
     public List<Student> getStudentByName(String currentFirstName, String currentSecondName);
+
+    public List<Student> getStudentByFirstName(String currentFirstName);
+
+    public List<Student> getStudentByLastName(String currentSecondName);
 
     public List<Group> getAllGroups();
 

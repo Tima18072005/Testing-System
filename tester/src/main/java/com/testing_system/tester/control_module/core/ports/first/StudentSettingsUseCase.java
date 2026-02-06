@@ -1,15 +1,17 @@
 package com.testing_system.tester.control_module.core.ports.first;
 
-// Первичный порт для изменения настроек учетной записи студента
-public interface StudentSettingsInterface {
-
-    // Методы, отвественные за смену группы
+/*
+ Первичный порт.
+ Выполняемые задачи:
+  - Изменение статуса студента
+  - Смена группы студента
+  - Переход группы на следующий курс
+ */
+public interface StudentSettingsUseCase {
 
     public void changeGroup(Integer currentStudentId, String newGroup);
 
     public void moveToTheNextCourse(String currentGroupName);
-
-    // Методы, ответственные за смену статуса
 
     public void activeStudent(Integer currentStudentId);
 

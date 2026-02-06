@@ -94,6 +94,7 @@ public class Student {
     // Сеттер для смены группы
     public void setStudentGroup(String studentGroup) {
         this.studentGroup = studentGroup;
+
     }
 
     // Установка новой даты окончания действия студенческого
