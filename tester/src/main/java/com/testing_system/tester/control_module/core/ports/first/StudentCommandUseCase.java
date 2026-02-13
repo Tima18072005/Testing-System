@@ -1,17 +1,23 @@
 package com.testing_system.tester.control_module.core.ports.first;
 
+import com.testing_system.tester.control_module.core.domain.Student;
+
+import java.util.List;
+
 /*
- Первичный порт.
+ Первичный порт
  Выполняемые задачи:
+
   - Изменение статуса студента
   - Смена группы студента
-  - Переход группы на следующий курс
+  - Перевод группы на следующий курс
+
  */
-public interface StudentSettingsUseCase {
+public interface StudentCommandUseCase {
 
     public void changeGroup(Integer currentStudentId, String newGroup);
 
-    public void moveToTheNextCourse(String currentGroupName);
+    public void promoteStudents(String currentGroupNumber, List<Student> groupStudents);
 
     public void activeStudent(Integer currentStudentId);
 

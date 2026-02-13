@@ -8,9 +8,12 @@ import com.testing_system.tester.creation_test_module.core.ports.second.AnswerDr
 import java.util.List;
 import java.util.Map;
 
-// Сервис-оркестратор для оценивания
+/*
+ Сервис-оркестратор для оценивания
+ */
 public class MarkRulesService implements MarkRulesUseCase {
 
+    // Реализация использует вторичный порт
     private final AnswerDrivenUseCase secondPort;
 
     public MarkRulesService(AnswerDrivenUseCase secondPort) {
@@ -22,7 +25,7 @@ public class MarkRulesService implements MarkRulesUseCase {
          return MarkValues.getAllValues();
     }
 
-    // Проверить правильность метода
+
     @Override
     public Map.Entry<Integer, Integer> calculateMark(List<Integer> currentAnswerIds) {
 
@@ -37,7 +40,7 @@ public class MarkRulesService implements MarkRulesUseCase {
 
         if (mark100 < MarkValues.GOOD.mark100) return Map.entry(mark100, MarkValues.PASSED.mark5);
 
-        if (mark100 < MarkValues.EXCELLENT.mark100) return Map.entry(mark100, MarkValues.GOOD.mark100);
+        if (mark100 < MarkValues.EXCELLENT.mark100) return Map.entry(mark100, MarkValues.GOOD.mark5);
 
         return Map.entry(mark100, MarkValues.EXCELLENT.mark5);
     }

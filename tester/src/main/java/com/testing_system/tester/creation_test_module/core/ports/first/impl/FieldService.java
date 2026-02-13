@@ -7,16 +7,23 @@ import com.testing_system.tester.creation_test_module.core.ports.second.FieldDri
 
 import java.util.List;
 
-// Сервис-оркестратор, работа с учебными дисциплинами
+/*
+Сервис-оркестратор, работа с учебными дисциплинами
+ */
 public class FieldService implements FieldUseCase {
 
-
+    // Реализация использует только вторичный порт
     private final FieldDrivenUseCase secondPort;
 
     public FieldService(FieldDrivenUseCase secondPort) {
         this.secondPort = secondPort;
     }
 
+
+    @Override
+    public boolean findField(String currentFieldName) {
+        return secondPort.getField(currentFieldName).isPresent();
+    }
 
     @Override
     public List<Field> getAllFieldNames() {
@@ -33,7 +40,7 @@ public class FieldService implements FieldUseCase {
     @Override
     public void makeNewField(Field currentField) {
 
-        if (secondPort.getField(currentField.getFieldName()).isPresent())
+        if (findField(currentField.getFieldName()))
             throw new IllegalArgumentException("Error! This field is exist! Field name: " + currentField.getFieldName());
 
         secondPort.saveField(currentField);
@@ -42,7 +49,7 @@ public class FieldService implements FieldUseCase {
     @Override
     public void deleteField(String currentFieldName) {
 
-        if (secondPort.getField(currentFieldName).isEmpty())
+        if (!findField(currentFieldName))
             throw new IllegalArgumentException("Error! You can't delete non-existent field! Field name: "
                     + currentFieldName);
 

@@ -6,22 +6,27 @@ import com.testing_system.tester.testing_attempts_module.core.ports.first.except
 import java.util.List;
 import java.util.Map;
 
-// Первичный порт для взаимодейсвтия с историей прохождений
+/*
+ Первичный порт
+ Задачи:
+
+    - CRUD истории прохождений
+    - Фильтрация тестов на основе истории прохождений для отображения студенту
+ */
 public interface AttemptHistoryUseCase {
 
-    // Сохранить/удалить попытку
-
-    public void saveAttemptToHistory(TestAttempt newAttempt);
-
-    public void deleteAttemptHistory(String currentTestName);
-
-    // Доступ к данным (могут возвращать пустые списки)
+    public TestAttempt getAttemptById(Integer currentTestId);
 
     public List<TestAttempt> getTestingHistory(String currentTestName);
 
-    public List<TestAttempt> getStudentTestingHistory(String currentTestName, Integer currentStudentId);
+    // Перегрузка метода для студента
+    public List<TestAttempt> getTestingHistory(String currentTestName, Integer currentStudentId);
 
-    // Фильтрация переданных ID тестов для отображения главной страницы программы
+    public void saveAttemptToHistory(TestAttempt newAttempt);
+
+    public void deleteAttemptById(Integer currentTestId);
+
+    public void deleteAttemptHistory(String currentTestName);
 
     public Map.Entry<List<String>, List<String>> testsFilter(Integer currentStudentId, List<String> currentTestsAssignations);
 

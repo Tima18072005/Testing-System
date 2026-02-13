@@ -1,8 +1,8 @@
 package com.testing_system.tester.control_module.core.ports.first.impl;
 
 import com.testing_system.tester.control_module.core.domain.EmployeeStatus;
-import com.testing_system.tester.control_module.core.ports.first.EmployeeRegistrationUseCase;
-import com.testing_system.tester.control_module.core.ports.first.EmployeeSettingsUseCase;
+import com.testing_system.tester.control_module.core.ports.first.EmployeeCommandUseCase;
+import com.testing_system.tester.control_module.core.ports.first.EmployeeQueryUseCase;
 import com.testing_system.tester.control_module.core.ports.second.EmployeeDrivenUseCase;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -10,24 +10,20 @@ import org.slf4j.LoggerFactory;
 /*
  Сервис-оркестратор для изменения данных в учетных записях сотрудника
  */
-public class EmployeeSettingsService implements EmployeeSettingsUseCase {
+public class EmployeeCommandService implements EmployeeCommandUseCase {
 
 
-    /*
-    Реализация использует первичный и вторичный порты
-     */
-    private final EmployeeRegistrationUseCase firstPort;
+    //Реализация использует первичный и вторичный порты
+    private final EmployeeQueryUseCase firstPort;
     private final EmployeeDrivenUseCase secondPort;
-    private final Logger logger = LoggerFactory.getLogger(EmployeeSettingsService.class);
+    private final Logger logger = LoggerFactory.getLogger(EmployeeCommandService.class);
 
-    public EmployeeSettingsService(EmployeeRegistrationUseCase firstPort, EmployeeDrivenUseCase secondPort) {
+    public EmployeeCommandService(EmployeeQueryUseCase firstPort, EmployeeDrivenUseCase secondPort) {
         this.firstPort = firstPort;
         this.secondPort = secondPort;
     }
 
-    /*
-    Кидает NoEmployeeException
-     */
+    //Кидает NoEmployeeException
     @Override
     public void empLevelUp(Integer currentId) {
 
@@ -38,9 +34,7 @@ public class EmployeeSettingsService implements EmployeeSettingsUseCase {
 
     }
 
-    /*
-   Кидает NoEmployeeException
-    */
+    //Кидает NoEmployeeException
     @Override
     public void empLevelLow(Integer currentId) {
 

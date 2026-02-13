@@ -6,7 +6,7 @@ package com.testing_system.tester.control_module.core.ports.first;
   - Повышение/понижение уровня доступа сотрудника
   - Смена сотрудником пароля (программа работает с хешем пароля)
  */
-public interface EmployeeSettingsUseCase{
+public interface EmployeeCommandUseCase{
 
     public void empLevelUp(Integer currentId);
 

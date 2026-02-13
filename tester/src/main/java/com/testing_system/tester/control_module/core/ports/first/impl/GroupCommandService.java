@@ -1,9 +1,9 @@
 package com.testing_system.tester.control_module.core.ports.first.impl;
 
-import com.testing_system.tester.control_module.core.ports.first.AssignationsUseCase;
-import com.testing_system.tester.control_module.core.ports.first.StudentRegistrationUseCase;
+import com.testing_system.tester.control_module.core.ports.first.GroupCommandUseCase;
+import com.testing_system.tester.control_module.core.ports.first.GroupQueryUseCase;
+import com.testing_system.tester.control_module.core.ports.first.StudentQueryUseCase;
 import com.testing_system.tester.control_module.core.ports.second.GroupDrivenUseCase;
-import com.testing_system.tester.control_module.core.ports.second.StudentDrivenUseCase;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -12,27 +12,26 @@ import java.util.List;
 /*
 Сервис-оркестратор для назначения тестов и учебных дисциплин
  */
-public class AssignationsService implements AssignationsUseCase {
+public class GroupCommandService implements GroupCommandUseCase {
 
 
-    /*
-     Реализация использует первичный и вторичный порты
-     */
-    private final StudentRegistrationUseCase firstPort;
+
+    //Реализация использует первичные и вторичные порты
+    private final StudentQueryUseCase studentFirstPort;
+    private final GroupQueryUseCase firstPort;
     private final GroupDrivenUseCase secondPort;
+    private final Logger logger = LoggerFactory.getLogger(GroupCommandService.class);
 
-    private final Logger logger = LoggerFactory.getLogger(AssignationsService.class);
 
-    public AssignationsService(StudentRegistrationUseCase firstPort, GroupDrivenUseCase secondPort) {
-
+    public GroupCommandService(StudentQueryUseCase studentFirstPort, GroupQueryUseCase firstPort, GroupDrivenUseCase secondPort) {
+        this.studentFirstPort = studentFirstPort;
         this.firstPort = firstPort;
         this.secondPort = secondPort;
 
     }
 
-    /*
-    Кидает NoGroupException()
-     */
+
+    // Использует метод первичного порта, который кидает NoGroupException()
     @Override
     public void fieldAssign(String currentGroupNum, String currentField) {
 
@@ -40,18 +39,16 @@ public class AssignationsService implements AssignationsUseCase {
 
         if (currentGroup.getFields().stream().anyMatch(field -> field.equals(currentField)))
 
-            throw new IllegalArgumentException("Error! You can't assign field twice! Field name: "
-                    + currentField + ". Group name: " + currentGroupNum);
+            throw new IllegalArgumentException("Error! You can't assign field twice! Field name: %f Group name: %g "
+                    .formatted(currentField, currentGroupNum));
 
         currentGroup.addField(currentField);
         secondPort.saveGroup(currentGroup);
         logger.info("Field{} was assign for the group {}", currentField, currentGroupNum);
     }
 
-    /*
-    Кидает NoGroupException()
-    Третий аргумент функции - дисциплина, для которой написан тест
-     */
+
+    // Использует метод первичного порта, который кидает NoGroupException()
     @Override
     public void testAssign(String currentGroupNum, String currentTest, String currentTestField) {
 
@@ -59,12 +56,12 @@ public class AssignationsService implements AssignationsUseCase {
 
         if (currentGroup.getTests().stream().anyMatch(test -> test.equals(currentTest)))
 
-            throw new IllegalArgumentException("Error! You can't assign test twice! Test name: "
-                    + currentTest + ". Group name: " + currentGroupNum);
+            throw new IllegalArgumentException("Error! You can't assign test twice! Test name: %t Group name: %g"
+                    .formatted(currentTest, currentGroupNum));
 
         if (currentGroup.getFields().stream().noneMatch(field -> field.equals(currentTestField)))
-            throw new IllegalArgumentException("Error! This group haven't assignation for this field! Group name: "
-                    + currentGroupNum + ". Field name: " + currentTestField);
+            throw new IllegalArgumentException("Error! This group haven't assignation for this field! Group name: %g Field name: %f"
+                    .formatted( currentGroupNum, currentTestField));
 
         currentGroup.addTest(currentTest);
         secondPort.saveGroup(currentGroup);
@@ -72,9 +69,8 @@ public class AssignationsService implements AssignationsUseCase {
 
     }
 
-    /*
-    Кидает NoGroupException()
-     */
+
+    // Использует метод первичного порта, который кидает NoGroupException()
     @Override
     public void fieldAssignDelete(String currentGroupNum, String currentField) {
 
@@ -82,17 +78,17 @@ public class AssignationsService implements AssignationsUseCase {
 
         if (currentGroup.getFields().stream().noneMatch(field -> field.equals(currentField)))
 
-            throw new IllegalArgumentException("Error! You can't delete not assigned field! Field name: "
-                    + currentField + ". Group name: " + currentGroupNum);
+            throw new IllegalArgumentException("Error! You can't delete not assigned field! Group name: %g Field name: %f"
+                    .formatted(currentGroupNum, currentField));
 
         currentGroup.removeField(currentField);
         secondPort.saveGroup(currentGroup);
         logger.info("Field{} was delete for the group {}", currentField, currentGroupNum);
     }
 
-    /*
-    Кидает NoGroupException()
-     */
+
+
+    // Использует метод первичного порта, который кидает NoGroupException()
     @Override
     public void testAssignDelete(String currentGroupNum, String currentTest) {
 
@@ -100,14 +96,15 @@ public class AssignationsService implements AssignationsUseCase {
 
         if (currentGroup.getTests().stream().noneMatch(test -> test.equals(currentTest)))
 
-            throw new IllegalArgumentException("Error! You can't delete not assigned test! Test name: "
-                    + currentTest + ". Group name: " + currentGroupNum);
+            throw new IllegalArgumentException("Error! You can't delete not assigned test! Test name: %t Group name: %g"
+                    .formatted(currentTest, currentGroupNum));
 
 
         currentGroup.removeTest(currentTest);
         secondPort.saveGroup(currentGroup);
         logger.info("Test{} was delete for the group {}", currentTest, currentGroupNum);
     }
+
 
     /*
     Кидает NoGroupException()
@@ -118,6 +115,8 @@ public class AssignationsService implements AssignationsUseCase {
         return firstPort.getGroupByName(currentGroupNum).getFields();
     }
 
+
+
     /*
     Кидает NoGroupException()
     При пустом списке контроллер возвращает соответствующий ДТО
@@ -127,6 +126,8 @@ public class AssignationsService implements AssignationsUseCase {
         return firstPort.getGroupByName(currentGroupNum).getTests();
     }
 
+
+
     /*
     Кидает NoStudentException()
     Кидает NoGroupException()
@@ -135,7 +136,7 @@ public class AssignationsService implements AssignationsUseCase {
     @Override
     public List<String> getFieldsAssign(Integer currentStudentId) {
 
-        var studentGroupNumber = firstPort.getStudentById(currentStudentId).getStudentGroup();
+        var studentGroupNumber = studentFirstPort.getStudentById(currentStudentId).getStudentGroup();
         return getFieldsAssign(studentGroupNumber);
     }
 
@@ -147,7 +148,7 @@ public class AssignationsService implements AssignationsUseCase {
     @Override
     public List<String> getTestsAssign(Integer currentStudentId) {
 
-        var studentGroupNumber = firstPort.getStudentById(currentStudentId).getStudentGroup();
+        var studentGroupNumber = studentFirstPort.getStudentById(currentStudentId).getStudentGroup();
         return getTestsAssign(studentGroupNumber);
     }
 }

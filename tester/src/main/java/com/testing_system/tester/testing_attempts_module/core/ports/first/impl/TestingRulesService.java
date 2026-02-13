@@ -15,11 +15,13 @@ import java.time.LocalDate;
 
 
 
-// Класс оркестратор для правил проведения тестирования
+/*
+Сервис-оркестратор для правил проведения тестирования
+ */
 
 public class TestingRulesService implements TestingRulesUseCase {
 
-
+    // Реализация использует вторичные порты
     private final TestingRulesDrivenUseCase secondPort;
     private final TestAttemptDrivenUseCase attemptSecondPort;
     private static final Logger logger = LoggerFactory.getLogger(TestingRulesService.class);
@@ -28,6 +30,13 @@ public class TestingRulesService implements TestingRulesUseCase {
         this.secondPort = currentSecondPort;
         this.attemptSecondPort = attemptSecondPort;
     }
+
+    @Override
+    public TestingRules getTestingRules(String currentTestName) {
+        return secondPort.getTestRules(currentTestName).orElseThrow(
+                () -> new NoRulesException("Testing rules not found! Test name: " + currentTestName));
+    }
+
 
 
     @Override
@@ -40,7 +49,10 @@ public class TestingRulesService implements TestingRulesUseCase {
         secondPort.saveRules(currentTestRules);
     }
 
-    // Возможно не будет использоваться при использовании Spring Boot
+    /*
+    Удалить правила можно только при удалении теста
+    Фасад будет вызывать соответсвующие методы
+     */
     @Override
     public void deleteTestingRules(String currentTestName) {
 
@@ -50,20 +62,17 @@ public class TestingRulesService implements TestingRulesUseCase {
         secondPort.deleteRules(currentTestName);
     }
 
-    @Override
-    public TestingRules getTestingRules(String currentTestName) {
-        return secondPort.getTestRules(currentTestName).orElseThrow(
-                () -> new NoRulesException("Testing rules not found! Test name: " + currentTestName));
-    }
 
-    /*
-    Может кидать NoRulesException
-    */
 
+    //Может кидать NoRulesException
     @Override
     public void changeDayAttempts(String currentTestName, Integer newNumber)  {
 
         var currentRules = getTestingRules(currentTestName);
+
+        if (newNumber < 1 || newNumber> currentRules.getAllAttempts())
+            throw new IllegalArgumentException("Error! Incorrect number %n for day attempts!"
+                    .formatted(newNumber));
 
         currentRules.setDayAttempts(newNumber);
         secondPort.saveRules(currentRules);
@@ -71,40 +80,39 @@ public class TestingRulesService implements TestingRulesUseCase {
 
     }
 
-    /*
-    Может кидать NoRulesException
-    */
+    //Может кидать NoRulesException
     @Override
     public void changeAllAttempts(String currentTestName, Integer newNumber) {
 
         var currentRules = getTestingRules(currentTestName);
+
+        if (newNumber < 1 || newNumber> 10)
+            throw new IllegalArgumentException("Error! Incorrect number %n for all attempts!"
+                    .formatted(newNumber));
 
         currentRules.setAllAttempts(newNumber);
         secondPort.saveRules(currentRules);
         logger.info("All attempts changed! Test name: {}", currentTestName);
     }
 
-    /*
-    Может кидать NoRulesException
-    */
+    //Может кидать NoRulesException
     @Override
-    public boolean wasTestingToDay(String currentTestName, Integer currentStudentId) {
+    public boolean canTestingToDay(String currentTestName, Integer currentStudentId) {
 
         var currentRules = getTestingRules(currentTestName);
 
         var allAttempts = attemptSecondPort.getAllAttemptsForStudent(currentTestName, currentStudentId);
 
-        if (allAttempts.isEmpty()) return false;
+        if (allAttempts.isEmpty()) return true;
 
         var toDayAttempts = allAttempts.stream().filter(
                 attempt -> attempt.getDate().equals(LocalDate.now())).toList();
 
-        return toDayAttempts.size() >= currentRules.getDayAttempts();
+        return toDayAttempts.size() < currentRules.getDayAttempts();
     }
 
-    /*
-    Может кидать NoRulesException
-    */
+
+    //Может кидать NoRulesException
     @Override
     public boolean isLastAttempt(String currentTestName, Integer currentStudentId) {
 
@@ -114,6 +122,7 @@ public class TestingRulesService implements TestingRulesUseCase {
 
         if (allAttempts.isEmpty()) return false;
 
+        // При true фасад ставит студенту статус должник
         return currentRules.getAllAttempts().equals(allAttempts.size()) && allAttempts.stream().noneMatch(attempt -> attempt.getMark()>=3);
     }
 }

@@ -1,10 +1,20 @@
 package com.testing_system.tester.control_module.core.domain;
+
+
 import java.time.LocalDate;
+import java.time.Month;
 
-// Доменная модель студент
+/*
+ Доменная модель студент
+ Содержит в себе:
+
+    - Id студента (номер студенческого)
+    - Имя + фамилия + отчество (если есть)
+    - Номер группы
+    - Статус студента (обозначает успеваемость)
+
+ */
 public class Student {
-
-    // Id, имя, фамилия, отчество, учебная группа, день рождения
 
     private final Integer studentId;
 
@@ -16,11 +26,9 @@ public class Student {
 
     private String studentGroup;
 
-    // Статус студента (обозначает его успеваемость)
     private StudentStatus studStatus;
 
-    // Дата, до которой действует студенческий (обновляется каждый год)
-    private LocalDate expirationDate;
+    private LocalDate startLearningDate;
 
 
     // Конструктор для студентов, у которых есть отчество
@@ -29,8 +37,7 @@ public class Student {
             String currentFirstName,
             String currentLastName,
             String currentPatronymic,
-            String currentStudentGroup,
-            LocalDate currentBirthDay
+            String currentStudentGroup
     )
     {
         this.studentId = currentStudentId;
@@ -38,7 +45,9 @@ public class Student {
         this.lastName = currentLastName;
         this.patronymic = currentPatronymic;
         this.studentGroup = currentStudentGroup;
-        this.expirationDate = currentBirthDay;
+        this.studStatus = StudentStatus.ACTIVE;
+        this.startLearningDate = LocalDate.of(LocalDate.now().getYear(), Month.AUGUST,31);
+
 
     }
 
@@ -47,20 +56,18 @@ public class Student {
             Integer currentStudentId,
             String currentFirstName,
             String currentLastName,
-            String currentStudentGroup,
-            LocalDate currentBirthDay
+            String currentStudentGroup
+
     )
     {
         this.studentId = currentStudentId;
         this.firstName = currentFirstName;
         this.lastName = currentLastName;
         this.studentGroup = currentStudentGroup;
-        this.expirationDate = currentBirthDay;
+        this.studStatus = StudentStatus.ACTIVE;
+        this.startLearningDate = LocalDate.of(LocalDate.now().getYear(), Month.AUGUST,31);
 
     }
-
-
-    // Геттеры
 
     public Integer getStudentId() {
         return studentId;
@@ -86,22 +93,20 @@ public class Student {
         return studStatus;
     }
 
-    public LocalDate getBirthDay() {
-        return expirationDate;
+    public LocalDate getStartLearningDate() {
+        return startLearningDate;
     }
 
-
-    // Сеттер для смены группы
     public void setStudentGroup(String studentGroup) {
         this.studentGroup = studentGroup;
-
     }
 
-    // Установка новой даты окончания действия студенческого
-    private void setNewExpirationDate(LocalDate currentDate){this.expirationDate = currentDate;}
+    public void setStartLearningDate() {
+        this.startLearningDate = LocalDate.of(LocalDate.now().getYear(), Month.AUGUST,31);
+    }
 
-    // Сеттер для установки статуса
     public void setStudStatus(StudentStatus studStatus) {
         this.studStatus = studStatus;
     }
+
 }

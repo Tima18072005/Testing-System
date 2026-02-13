@@ -6,8 +6,18 @@ import com.testing_system.tester.creation_test_module.core.ports.first.exception
 import java.util.List;
 import java.util.Optional;
 
-// Первичный порт для работы с учебными дисциплинами
+
+/*
+Первичный порт для работы с учебными дисциплинами
+Задачи:
+
+    - Создание/удаление учебных дисциплин
+    - Доступ к учебным дисциплинам
+
+ */
 public interface FieldUseCase {
+
+    public boolean findField(String currentFieldName);
 
     public List<Field> getAllFieldNames();
 

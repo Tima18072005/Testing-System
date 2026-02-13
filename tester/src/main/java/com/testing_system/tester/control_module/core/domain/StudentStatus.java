@@ -1,6 +1,14 @@
 package com.testing_system.tester.control_module.core.domain;
 
-// Статус студента (АКТИВЕН, ДОЛЖНИК, ОТЧИСЛЕН, ВЫПУСТИЛСЯ)
+/*
+ Статус студента:
+
+    - АКТИВЕН
+    - ДОЛЖНИК
+    - ОТЧИСЛЕН
+    - ВЫПУСТИЛСЯ
+
+ */
 
 public enum StudentStatus {
 

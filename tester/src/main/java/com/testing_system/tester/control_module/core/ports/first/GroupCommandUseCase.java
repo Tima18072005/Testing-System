@@ -2,15 +2,16 @@ package com.testing_system.tester.control_module.core.ports.first;
 
 import java.util.List;
 
+/*
 
-public interface AssignationsUseCase {
-
-    /*
-    Первичный порт.
+    Первичный порт
     Выполняет следующие задачи:
      - Назначение/отмена назначений группам тестов и учебных дисциплин
      - Предоставление доступа к данным о назначениях
-     */
+
+*/
+public interface GroupCommandUseCase {
+
 
     public void fieldAssign(String currentGroupNum, String currentField);
 

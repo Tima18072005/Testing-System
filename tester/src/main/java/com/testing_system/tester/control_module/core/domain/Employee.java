@@ -1,9 +1,17 @@
 package com.testing_system.tester.control_module.core.domain;
 
-// Доменная модель сотрудник
+/*
+ Доменная модель сотрудник
+ Содержит в себе:
+
+    - Id сотрудника
+    - Имя + фамилию + отчество (если есть)
+    - Статус сотрудника (обозначает уровень доступа)
+    - Хешированнный пароль
+
+ */
 public class Employee {
 
-    // Id, имя, фамилия, отчество
 
     private final Integer empId;
 
@@ -13,10 +21,8 @@ public class Employee {
 
     private String patronymic;
 
-    // Статус сотрудника (для определения его уровня доступа)
     private EmployeeStatus empStatus;
 
-    // Хешированный пароль от аккаунта
     private String hashPass;
 
 
@@ -53,8 +59,6 @@ public class Employee {
     }
 
 
-    // Геттеры
-
     public Integer getEmpId() {
         return empId;
     }
@@ -79,12 +83,10 @@ public class Employee {
         return hashPass;
     }
 
-    // Сеттер для установки статуса
     public void setEmpStatus(EmployeeStatus empStatus) {
         this.empStatus = empStatus;
     }
 
-    // Сеттер для смены пароля
     public void setHashPass(String hashPass) {
         this.hashPass = hashPass;
     }

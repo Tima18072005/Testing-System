@@ -8,33 +8,31 @@ import java.util.List;
 import java.util.Map;
 
 
-// Первичный порт для работы с версиями теста
+/*
+Первичный порт.
+Задачи:
+    - CRUD-операции для версии
+    - Прохождение теста
+    - Сделать черновиком/чистовиком
+ */
 public interface TestVersionUseCase {
 
-    // Создание/удаление новой версии
+
 
     public void makeNewVersion(
             TestVersion newVersion,
             Map<Question, List<Answer>> newVersionContent
     );
 
-    public void deleteVersion(String currentTestName, Integer currentVersionId);
-
-    // Получение данных о версии
+    public void deleteVersion(Integer currentVersionId);
 
     public List<TestVersion> getAllTestVersion(String currentTestName); // Только медаданные
-
-    // По отдельности получение метаданных и списка вопросов/ответов, в сервисе-оркестраторе будет объединённый метод
 
     public TestVersion getVersionMetaDataById(Integer currentVersionId);
 
     public Map<Question, List<Answer>> getVersionContentById(Integer currentVersionId);
 
-    // Для прохождения теста
-
     public Map<Question, List<Answer>> getLastUsableVersion(String currentTestName);
-
-    // Сделать черновиком/чистовиком
 
     public void makeDraft(Integer currentVersionId);
 

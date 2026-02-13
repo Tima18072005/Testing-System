@@ -10,18 +10,66 @@ import java.util.Map;
 import java.util.stream.Collectors;
 
 
-// Класс-оркестратор для доступа к истории прохождений
+/*
+ Сервис-оркестратор для доступа к истории прохождений
+ */
 public class AttemptHistoryService implements AttemptHistoryUseCase {
 
-    private  final TestAttemptDrivenUseCase secondPort;
+    // Реализация зависит от вторичного порта
+    private final TestAttemptDrivenUseCase secondPort;
 
     public AttemptHistoryService(TestAttemptDrivenUseCase secondPort) {
         this.secondPort = secondPort;
     }
 
+
+    @Override
+    public TestAttempt getAttemptById(Integer currentTestId) {
+        return secondPort.getTestAttemptById(currentTestId).orElseThrow(
+                ()-> new NoHistoryException("Error! Attempt is not found! Id: %i"
+                        .formatted(currentTestId)));
+    }
+
+
+    @Override
+    public List<TestAttempt> getTestingHistory(String currentTestName) {
+
+        var currentTestHistory = secondPort.getAllAttemptsForTest(currentTestName);
+
+        if (currentTestHistory.isEmpty()) throw new NoHistoryException(
+                "Testing History is not found! Test name: " + currentTestName);
+
+        return currentTestHistory;
+    }
+
+    // Перегрузка метода для студента
+    @Override
+    public List<TestAttempt> getTestingHistory(String currentTestName, Integer currentStudentId) {
+
+        var currentStudentHistory = secondPort.getAllAttemptsForStudent(currentTestName, currentStudentId);
+
+        if (currentStudentHistory.isEmpty()) throw new NoHistoryException(
+                "Testing History is not found! Test name: " + currentTestName
+                        + ". Student ID: " + currentStudentId);
+
+        return currentStudentHistory;
+    }
+
     @Override
     public void saveAttemptToHistory(TestAttempt newAttempt) {
+
+        if (secondPort.getTestAttemptById(newAttempt.getAttemptId()).isPresent())
+            throw new IllegalArgumentException("Error! You cant save attempt with same ids! Id: %i"
+                    .formatted(newAttempt.getAttemptId()));
+
         secondPort.saveAttempt(newAttempt);
+    }
+
+    @Override
+    public void deleteAttemptById(Integer currentTestId) {
+        if (secondPort.getTestAttemptById(currentTestId).isEmpty())
+            throw new IllegalArgumentException("Error! You can't delete non-existent attempt! Id: %i"
+                    .formatted(currentTestId));
     }
 
     @Override
@@ -38,31 +86,6 @@ public class AttemptHistoryService implements AttemptHistoryUseCase {
         for (Integer id: currentIDS) secondPort.deleteAttempt(id);
     }
 
-
-    @Override
-    public List<TestAttempt> getTestingHistory(String currentTestName) {
-
-        var currentTestHistory = secondPort.getAllAttemptsForTest(currentTestName);
-
-        if (currentTestHistory.isEmpty()) throw new NoHistoryException(
-                "Testing History is not found! Test name: " + currentTestName);
-
-        return currentTestHistory;
-    }
-
-    // Не использует предыдущий метод. Сразу понятно, что нужно расширить вторичный порт
-    @Override
-    public List<TestAttempt> getStudentTestingHistory(String currentTestName, Integer currentStudentId) {
-
-        var currentStudentHistory = secondPort.getAllAttemptsForStudent(currentTestName, currentStudentId);
-
-        if (currentStudentHistory.isEmpty()) throw new NoHistoryException(
-                "Testing History is not found! Test name: " + currentTestName
-                        + ". Student ID: " + currentStudentId);
-
-        return currentStudentHistory;
-    }
-
     @Override
     public Map.Entry<List<String>, List<String>> testsFilter(Integer currentStudentId, List<String> currentTestsAssignations) {
 
@@ -76,12 +99,12 @@ public class AttemptHistoryService implements AttemptHistoryUseCase {
         List<String> passedTests = allAttempts.entrySet().stream()
                 .filter(entry ->
                         entry.getValue().stream().anyMatch(
-                                attempt -> attempt.getMark()>=3))
+                                attempt -> attempt.getMark5()>=3))
                 .map(Map.Entry::getKey).toList();
 
         List<String> failedTests = allAttempts.entrySet().stream()
                 .filter(entry -> entry.getValue().stream().noneMatch(
-                        attempt -> attempt.getMark()>=3)).map(Map.Entry::getKey).toList();
+                        attempt -> attempt.getMark5()>=3)).map(Map.Entry::getKey).toList();
 
         return Map.entry(passedTests, failedTests);
     }
