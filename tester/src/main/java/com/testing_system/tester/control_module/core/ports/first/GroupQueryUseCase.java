@@ -10,6 +10,7 @@ import java.util.List;
 
     - Доступ к учетным записям групп
     - Проверка наличия группы в базе
+    - Предоставление доступа к данным о назначениях
 
  */
 public interface GroupQueryUseCase {
@@ -23,4 +24,11 @@ public interface GroupQueryUseCase {
     public List<Group> filterGroupByName(String currentName);
 
     public List<Group> filterGroupByNumber(Integer currentNumber);
+
+    // Методы для отображения на главной странице студента
+
+    public List<String> getFieldsAssign(String currentGroupNum);
+
+    public List<String> getTestsAssign(String currentGroupNum);
+
 }

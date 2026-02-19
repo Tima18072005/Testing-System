@@ -5,12 +5,14 @@ import com.testing_system.tester.control_module.core.domain.EmployeeStatus;
 import com.testing_system.tester.control_module.core.ports.first.EmployeeQueryUseCase;
 import com.testing_system.tester.control_module.core.ports.first.exceptions.NoEmployeeException;
 import com.testing_system.tester.control_module.core.ports.second.EmployeeDrivenUseCase;
+import org.springframework.stereotype.Service;
 
 import java.util.List;
 
 /*
  Сервис-оркестратор для предоставления доступа к данным учетных записей сотрудника
  */
+@Service
 public class EmployeeQueryService implements EmployeeQueryUseCase {
 
     // Реализация использует вторичный порт

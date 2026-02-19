@@ -15,13 +15,11 @@ import java.util.List;
  */
 public interface StudentRegistrationUseCase {
 
-    public void regStudent(Student currentStudent);
+    public Student regStudent(Student currentStudent);
 
     public void deleteStudent(Integer currentStudentId);
 
-    public boolean validGroup(String currentGroup);
-
-    public void makeGroup(Group currentGroup);
+    public Group makeGroup(Group currentGroup);
 
     public void deleteGroup(String currentGroupNum);
 }

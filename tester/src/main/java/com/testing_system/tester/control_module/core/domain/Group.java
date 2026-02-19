@@ -43,6 +43,16 @@ public class Group {
         this.fields = new ArrayList<>();
     }
 
+    // Конструктор для создания на основе сущности из БД
+
+    public Group(String currentGroupNumber, Integer currentNumberOfCourses, List<String> currentTests, List<String> currentFields){
+
+        this.groupNumber = currentGroupNumber;
+        this.numberOfCourses = currentNumberOfCourses;
+        this.tests = currentTests;
+        this.fields = currentFields;
+    }
+
 
     public String getGroupNumber() {
         return groupNumber;

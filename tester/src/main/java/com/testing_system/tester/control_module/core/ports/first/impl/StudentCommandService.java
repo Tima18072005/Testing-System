@@ -6,10 +6,11 @@ import com.testing_system.tester.control_module.core.domain.StudentStatus;
 import com.testing_system.tester.control_module.core.ports.first.GroupQueryUseCase;
 import com.testing_system.tester.control_module.core.ports.first.StudentQueryUseCase;
 import com.testing_system.tester.control_module.core.ports.first.StudentCommandUseCase;
-import com.testing_system.tester.control_module.core.ports.second.GroupDrivenUseCase;
 import com.testing_system.tester.control_module.core.ports.second.StudentDrivenUseCase;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.stereotype.Service;
+
 import static java.time.temporal.ChronoUnit.DAYS;
 import java.time.LocalDate;
 import java.util.ArrayList;
@@ -19,6 +20,7 @@ import java.util.List;
 /*
  Сервис-оркестратор для изменения данных внутри учетной записи студента
  */
+@Service
 public class StudentCommandService implements StudentCommandUseCase {
 
     // Реализация использует первичные и вторичные порты
@@ -41,25 +43,25 @@ public class StudentCommandService implements StudentCommandUseCase {
 
     // Вызывает метод первичного порта, который кидает NoStudentException()
     @Override
-    public void changeGroup(Integer currentStudentId, String newGroup) {
+    public Student changeGroup(Integer currentStudentId, String newGroup) {
 
         var student = firstPort.getStudentById(currentStudentId);
 
         if (!groupFirstPort.findGroup(newGroup))
-            throw new IllegalArgumentException("Error! You can't change group to non-existent! Student ID: %s. Old group: %og. Non-existent group: %ng."
+            throw new IllegalArgumentException("Error! You can't change group to non-existent! Student ID: %d. Old group: %s. Non-existent group: %s."
                     .formatted(currentStudentId, student.getStudentGroup(), newGroup));
 
         student.setStudentGroup(newGroup);
         secondPort.saveStudent(student);
         logger.info("Student with id {} changed group! New group: {}", currentStudentId, newGroup );
-
+        return student;
     }
 
 
 
     // Вызывает метод первичного порта, который кидает NoGroupException()
     @Override
-    public void promoteStudents(String currentGroupNumber, List<Student> groupStudents){
+    public void promoteStudents( List<Student> groupStudents){
 
 
         // 150 - самый худший случай
@@ -71,7 +73,7 @@ public class StudentCommandService implements StudentCommandUseCase {
         List<Student> toGraduate = new ArrayList<>();
         List<Integer> toDelete = new ArrayList<>();
 
-        int maxCourse = groupFirstPort.getGroupByName(currentGroupNumber).getNumberOfCourses();
+
 
         for (Student student: groupStudents){
 
@@ -83,9 +85,10 @@ public class StudentCommandService implements StudentCommandUseCase {
 
             else{
 
-                var currentGroup = student.getStudentGroup();
-                var currentName = currentGroup.substring(0,currentGroup.indexOf("-"));
-                var currentNumber = Integer.parseInt(currentGroup.substring(currentGroup.lastIndexOf("-")+1));
+                String currentGroup = student.getStudentGroup();
+                int maxCourse = groupFirstPort.getGroupByName(currentGroup).getNumberOfCourses();
+                String currentName = currentGroup.substring(0,currentGroup.indexOf("-"));
+                int currentNumber = Integer.parseInt(currentGroup.substring(currentGroup.lastIndexOf("-")+1));
 
                 if(currentNumber/100 == maxCourse){
 
@@ -124,45 +127,49 @@ public class StudentCommandService implements StudentCommandUseCase {
 
     // Использует метод первичного порта, который кидает NoStudentException()
     @Override
-    public void activeStudent(Integer currentStudentId) {
+    public Student activeStudent(Integer currentStudentId) {
         var student = firstPort.getStudentById(currentStudentId);
         student.setStudStatus(StudentStatus.ACTIVE);
         secondPort.saveStudent(student);
         logger.info("Student with id {} is active!", currentStudentId);
+        return student;
     }
 
 
 
     // Использует метод первичного порта, который кидает NoStudentException()
     @Override
-    public void graduatedStudent(Integer currentStudentId) {
+    public Student graduatedStudent(Integer currentStudentId) {
         var student = firstPort.getStudentById(currentStudentId);
         student.setStudStatus(StudentStatus.SUCCESSFULLY_EXPELLED);
         secondPort.saveStudent(student);
         logger.info("Student with id {} was successfully expelled!", currentStudentId);
+        return student;
     }
 
 
 
     // Использует метод первичного порта, который кидает NoStudentException()
     @Override
-    public void expelledStudent(Integer currentStudentId) {
+    public Student expelledStudent(Integer currentStudentId) {
 
         var student = firstPort.getStudentById(currentStudentId);
         student.setStudStatus(StudentStatus.EXPELLED);
         secondPort.saveStudent(student);
         logger.info("Student with id {} was expelled!", currentStudentId);
+        return student;
     }
 
 
 
     // Использует метод первичного порта, который кидает NoStudentException()
     @Override
-    public void debtorStudent(Integer currentStudentId) {
+    public Student debtorStudent(Integer currentStudentId) {
 
         var student = firstPort.getStudentById(currentStudentId);
         student.setStudStatus(StudentStatus.DEBTOR);
         secondPort.saveStudent(student);
         logger.info("Student with id {} is debtor!", currentStudentId);
+        return student;
     }
 }

@@ -1,56 +1,35 @@
-package com.testing_system.tester.control_module.core.domain;
+package com.testing_system.tester.control_module.infrastructure.dto.response;
+
+
+
+
+import com.testing_system.tester.control_module.core.domain.EmployeeStatus;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 /*
- Доменная модель сотрудник
- Содержит в себе:
-
-    - Id сотрудника
-    - Имя + фамилию + отчество (если есть)
-    - Статус сотрудника (обозначает уровень доступа)
-    - Хешированнный пароль
-
+ DTO для сохранения сотрудник
  */
-public class Employee {
+@NoArgsConstructor
+@Setter
+public class EmployeeSaveDTO {
 
+    private Integer empId;
 
-    private final Integer empId;
+    private String firstName;
 
-    private final String firstName;
-
-    private final String lastName;
+    private String lastName;
 
     private String patronymic;
 
-    private EmployeeStatus empStatus;
-
     private String hashPass;
 
-
-
     // Конструктор для сотрудников, у которых есть отчество
-    public Employee (
+    public EmployeeSaveDTO (
             Integer currentEmpId,
             String currentFirstName,
             String currentLastName,
             String patronymic,
-            EmployeeStatus empStatus,
-            String currentHashPass
-            )
-    {
-        this.empId = currentEmpId;
-        this.firstName = currentFirstName;
-        this.lastName = currentLastName;
-        this.patronymic = patronymic;
-        this.empStatus = empStatus;
-        this.hashPass = currentHashPass;
-    }
-
-
-    // Конструктор для сотрудников, у которых нет отчества
-    public Employee (
-            Integer currentEmpId,
-            String currentFirstName,
-            String currentLastName,
             EmployeeStatus empStatus,
             String currentHashPass
     )
@@ -58,10 +37,24 @@ public class Employee {
         this.empId = currentEmpId;
         this.firstName = currentFirstName;
         this.lastName = currentLastName;
-        this.empStatus = empStatus;
+        this.patronymic = patronymic;
         this.hashPass = currentHashPass;
     }
 
+
+    // Конструктор для сотрудников, у которых нет отчества
+    public EmployeeSaveDTO (
+            Integer currentEmpId,
+            String currentFirstName,
+            String currentLastName,
+            String currentHashPass
+    )
+    {
+        this.empId = currentEmpId;
+        this.firstName = currentFirstName;
+        this.lastName = currentLastName;
+        this.hashPass = currentHashPass;
+    }
 
     public Integer getEmpId() {
         return empId;
@@ -79,19 +72,7 @@ public class Employee {
         return patronymic;
     }
 
-    public EmployeeStatus getEmpStatus() {
-        return empStatus;
-    }
-
     public String getHashPass() {
         return hashPass;
-    }
-
-    public void setEmpStatus(EmployeeStatus empStatus) {
-        this.empStatus = empStatus;
-    }
-
-    public void setHashPass(String hashPass) {
-        this.hashPass = hashPass;
     }
 }

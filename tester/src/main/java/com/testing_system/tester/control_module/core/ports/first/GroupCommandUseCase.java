@@ -1,5 +1,7 @@
 package com.testing_system.tester.control_module.core.ports.first;
 
+import com.testing_system.tester.control_module.core.domain.Group;
+
 import java.util.List;
 
 /*
@@ -13,27 +15,13 @@ import java.util.List;
 public interface GroupCommandUseCase {
 
 
-    public void fieldAssign(String currentGroupNum, String currentField);
+    public Group fieldAssign(String currentGroupNum, String currentField);
+
+    public Group testAssign(String currentGroupNum, String currentTest, String currentTestField);
+
+    public Group fieldAssignDelete(String currentGroupNum, String currentField);
+
+    public Group testAssignDelete(String currentGroupNum, String currentTest);
 
 
-    public void testAssign(String currentGroupNum, String currentTest, String currentTestField);
-
-
-    public void fieldAssignDelete(String currentGroupNum, String currentField);
-
-
-    public void testAssignDelete(String currentGroupNum, String currentTest);
-
-
-    public List<String> getFieldsAssign(String currentGroupNum);
-
-
-    public List<String> getTestsAssign(String currentGroupNum);
-
-    // Для конкретного студента
-
-    public List<String> getFieldsAssign(Integer currentStudentId);
-
-
-    public List<String> getTestsAssign(Integer currentStudentId);
 }

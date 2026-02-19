@@ -4,12 +4,14 @@ import com.testing_system.tester.control_module.core.domain.Group;
 import com.testing_system.tester.control_module.core.ports.first.GroupQueryUseCase;
 import com.testing_system.tester.control_module.core.ports.first.exceptions.NoGroupException;
 import com.testing_system.tester.control_module.core.ports.second.GroupDrivenUseCase;
+import org.springframework.stereotype.Service;
 
 import java.util.List;
 
 /*
 Сервис-оркестратор для доступа к группе
  */
+@Service
 public class GroupQueryService implements GroupQueryUseCase {
 
     // Реализация использует только вторичный порт
@@ -66,4 +68,26 @@ public class GroupQueryService implements GroupQueryUseCase {
                 .filter(group -> group.getGroupNumber().substring(group.getGroupNumber().lastIndexOf("-")).equals(currentNumber.toString()))
                 .toList();
     }
+
+    /*
+    Кидает NoGroupException()
+    При пустом списке контроллер возвращает соответствующий ДТО
+     */
+    @Override
+    public List<String> getTestsAssign(String currentGroupNum) {
+        return getGroupByName(currentGroupNum).getTests();
+    }
+
+
+    /*
+    Кидает NoGroupException()
+    При пустом списке контроллер возвращает соответствующий ДТО
+     */
+    @Override
+    public List<String> getFieldsAssign(String currentGroupNum) {
+        return getGroupByName(currentGroupNum).getFields();
+    }
+
+
+
 }

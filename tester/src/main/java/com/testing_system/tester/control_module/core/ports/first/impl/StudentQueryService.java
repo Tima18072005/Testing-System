@@ -1,16 +1,17 @@
 package com.testing_system.tester.control_module.core.ports.first.impl;
 
-import com.testing_system.tester.control_module.core.domain.Group;
 import com.testing_system.tester.control_module.core.domain.Student;
 import com.testing_system.tester.control_module.core.ports.first.StudentQueryUseCase;
 import com.testing_system.tester.control_module.core.ports.first.exceptions.NoStudentException;
 import com.testing_system.tester.control_module.core.ports.second.StudentDrivenUseCase;
+import org.springframework.stereotype.Service;
 
 import java.util.List;
 
 /*
 Сервис-оркестратор для доступа к данным учетных записей студентов и фильтрации
  */
+@Service
 public class StudentQueryService implements StudentQueryUseCase{
 
     // Реализация использует только вторичный порт

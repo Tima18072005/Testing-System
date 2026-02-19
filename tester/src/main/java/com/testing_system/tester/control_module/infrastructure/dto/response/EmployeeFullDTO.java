@@ -1,65 +1,52 @@
-package com.testing_system.tester.control_module.core.domain;
+package com.testing_system.tester.control_module.infrastructure.dto.response;
 
-/*
- Доменная модель сотрудник
- Содержит в себе:
+import com.testing_system.tester.control_module.core.domain.EmployeeStatus;
 
-    - Id сотрудника
-    - Имя + фамилию + отчество (если есть)
-    - Статус сотрудника (обозначает уровень доступа)
-    - Хешированнный пароль
+// Полное DTO для чтения сотрудник
+public class EmployeeFullDTO {
 
- */
-public class Employee {
+    private Integer empId;
 
+    private String firstName;
 
-    private final Integer empId;
-
-    private final String firstName;
-
-    private final String lastName;
+    private String lastName;
 
     private String patronymic;
 
     private EmployeeStatus empStatus;
 
-    private String hashPass;
-
-
 
     // Конструктор для сотрудников, у которых есть отчество
-    public Employee (
+    public EmployeeFullDTO (
             Integer currentEmpId,
             String currentFirstName,
             String currentLastName,
             String patronymic,
-            EmployeeStatus empStatus,
-            String currentHashPass
-            )
+            EmployeeStatus empStatus
+    )
     {
         this.empId = currentEmpId;
         this.firstName = currentFirstName;
         this.lastName = currentLastName;
         this.patronymic = patronymic;
         this.empStatus = empStatus;
-        this.hashPass = currentHashPass;
     }
 
 
     // Конструктор для сотрудников, у которых нет отчества
-    public Employee (
+    public EmployeeFullDTO (
             Integer currentEmpId,
             String currentFirstName,
             String currentLastName,
-            EmployeeStatus empStatus,
-            String currentHashPass
+            EmployeeStatus empStatus
+
     )
     {
         this.empId = currentEmpId;
         this.firstName = currentFirstName;
         this.lastName = currentLastName;
         this.empStatus = empStatus;
-        this.hashPass = currentHashPass;
+
     }
 
 
@@ -83,15 +70,5 @@ public class Employee {
         return empStatus;
     }
 
-    public String getHashPass() {
-        return hashPass;
-    }
 
-    public void setEmpStatus(EmployeeStatus empStatus) {
-        this.empStatus = empStatus;
-    }
-
-    public void setHashPass(String hashPass) {
-        this.hashPass = hashPass;
-    }
 }

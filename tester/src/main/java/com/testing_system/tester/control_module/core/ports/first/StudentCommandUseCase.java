@@ -15,15 +15,15 @@ import java.util.List;
  */
 public interface StudentCommandUseCase {
 
-    public void changeGroup(Integer currentStudentId, String newGroup);
+    public Student changeGroup(Integer currentStudentId, String newGroup);
 
-    public void promoteStudents(String currentGroupNumber, List<Student> groupStudents);
+    public void promoteStudents( List<Student> groupStudents);
 
-    public void activeStudent(Integer currentStudentId);
+    public Student activeStudent(Integer currentStudentId);
 
-    public void graduatedStudent(Integer currentStudentId);
+    public Student graduatedStudent(Integer currentStudentId);
 
-    public void expelledStudent(Integer currentStudentId);
+    public Student expelledStudent(Integer currentStudentId);
 
-    public void debtorStudent(Integer currentStudentId);
+    public Student debtorStudent(Integer currentStudentId);
 }

@@ -31,6 +31,9 @@ public class Student {
     private LocalDate startLearningDate;
 
 
+    //Первые два конструктора для первоначального создания
+
+
     // Конструктор для студентов, у которых есть отчество
     public Student(
             Integer currentStudentId,
@@ -66,6 +69,48 @@ public class Student {
         this.studentGroup = currentStudentGroup;
         this.studStatus = StudentStatus.ACTIVE;
         this.startLearningDate = LocalDate.of(LocalDate.now().getYear(), Month.AUGUST,31);
+
+    }
+
+    // Эти конструкторы для создания сущности на основе сохраненной сущности в БД
+
+    public Student(
+            Integer currentStudentId,
+            String currentFirstName,
+            String currentLastName,
+            String currentPatronymic,
+            String currentStudentGroup,
+            StudentStatus currentStatus,
+            LocalDate currentDate
+    )
+    {
+        this.studentId = currentStudentId;
+        this.firstName = currentFirstName;
+        this.lastName = currentLastName;
+        this.patronymic = currentPatronymic;
+        this.studentGroup = currentStudentGroup;
+        this.studStatus = currentStatus;
+        this.startLearningDate = currentDate;
+
+
+    }
+
+    public Student(
+            Integer currentStudentId,
+            String currentFirstName,
+            String currentLastName,
+            String currentStudentGroup,
+            StudentStatus currentStatus,
+            LocalDate currentDate
+    )
+    {
+        this.studentId = currentStudentId;
+        this.firstName = currentFirstName;
+        this.lastName = currentLastName;
+        this.studentGroup = currentStudentGroup;
+        this.studStatus = currentStatus;
+        this.startLearningDate = currentDate;
+
 
     }
 

@@ -7,11 +7,13 @@ import com.testing_system.tester.control_module.core.ports.first.StudentQueryUse
 import com.testing_system.tester.control_module.core.ports.first.StudentRegistrationUseCase;
 import com.testing_system.tester.control_module.core.ports.second.GroupDrivenUseCase;
 import com.testing_system.tester.control_module.core.ports.second.StudentDrivenUseCase;
+import org.springframework.stereotype.Service;
 
 
 /*
  Сервис-оркестратор для регистрации/удаления учетных записей студентов и групп
  */
+@Service
 public class StudentRegistrationService implements StudentRegistrationUseCase {
 
 
@@ -33,24 +35,25 @@ public class StudentRegistrationService implements StudentRegistrationUseCase {
 
 
     @Override
-    public void regStudent(Student currentStudent) {
+    public Student regStudent(Student currentStudent) {
 
        if (firstPort.findStudent(currentStudent.getStudentId()))
            throw new IllegalArgumentException("Error! You can't save students with the same ids! Student id: %s"
                    .formatted(currentStudent.getStudentId()));
 
        if (!groupFirstPort.findGroup(currentStudent.getStudentGroup()))
-           throw new IllegalArgumentException("Error! You can't save students with non-existent group! Group: %g. Student ID: %s"
+           throw new IllegalArgumentException("Error! You can't save students with non-existent group! Group: %s. Student ID: %d"
                    .formatted(currentStudent.getStudentGroup(), currentStudent.getStudentId()));
 
         secondPort.saveStudent(currentStudent);
+        return currentStudent;
     }
 
 
 
     //Название группы считается верным при наличии символа "-" и трехзначном номере
-    @Override
-    public boolean validGroup(String currentGroup){
+
+    private boolean validGroup(String currentGroup){
 
         if(!currentGroup.contains("-")) return false;
 
@@ -62,17 +65,18 @@ public class StudentRegistrationService implements StudentRegistrationUseCase {
 
 
     @Override
-    public void makeGroup(Group currentGroup) {
+    public Group makeGroup(Group currentGroup) {
 
         if (groupFirstPort.findGroup(currentGroup.getGroupNumber()))
-            throw new IllegalArgumentException("Error! You can't save groups with the same names and numbers! Group name: %g"
+            throw new IllegalArgumentException("Error! You can't save groups with the same names and numbers! Group name: %s"
                     .formatted(currentGroup.getGroupNumber()));
 
         if (!validGroup(currentGroup.getGroupNumber()))
-            throw new IllegalArgumentException("Error! Incorrect group name! Group name: %g"
+            throw new IllegalArgumentException("Error! Incorrect group name! Group name: %s"
                     .formatted(currentGroup.getGroupNumber()));
 
         groupSecondPort.saveGroup(currentGroup);
+        return currentGroup;
     }
 
 
@@ -81,7 +85,7 @@ public class StudentRegistrationService implements StudentRegistrationUseCase {
     public void deleteStudent(Integer currentStudentId) {
 
         if (!firstPort.findStudent(currentStudentId))
-            throw new IllegalArgumentException("Error! You can't delete non-existent student! Student ID: %s "
+            throw new IllegalArgumentException("Error! You can't delete non-existent student! Student ID: %d "
                     .formatted(currentStudentId));
 
         secondPort.deleteStudent(currentStudentId);
@@ -95,7 +99,7 @@ public class StudentRegistrationService implements StudentRegistrationUseCase {
     public void deleteGroup(String currentGroupNum) {
 
         if (!groupFirstPort.findGroup(currentGroupNum))
-            throw new IllegalArgumentException("Error! You can't delete non-existent group! Group name: %g"
+            throw new IllegalArgumentException("Error! You can't delete non-existent group! Group name: %s"
                     .formatted(currentGroupNum));
 
         if (!firstPort.getStudentsByGroup(currentGroupNum).isEmpty())

@@ -13,7 +13,7 @@ import com.testing_system.tester.control_module.core.domain.Employee;
  */
 public interface EmployeeRegistrationUseCase {
 
-    public void regEmployee(Employee currentEmployee);
+    public Employee regEmployee(Employee currentEmployee);
 
     public void deleteEmployee(Integer currentId);
 

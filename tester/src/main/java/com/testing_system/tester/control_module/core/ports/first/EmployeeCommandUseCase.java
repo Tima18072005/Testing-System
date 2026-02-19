@@ -1,5 +1,7 @@
 package com.testing_system.tester.control_module.core.ports.first;
 
+import com.testing_system.tester.control_module.core.domain.Employee;
+
 /*
  Первичный порт.
  Выполняемые задачи:
@@ -8,9 +10,9 @@ package com.testing_system.tester.control_module.core.ports.first;
  */
 public interface EmployeeCommandUseCase{
 
-    public void empLevelUp(Integer currentId);
+    public Employee empLevelUp(Integer currentId);
 
-    public void empLevelLow(Integer currentId);
+    public Employee empLevelLow(Integer currentId);
 
-    public void changePassword(Integer currentId, String newPassword, String newPassword2);
+    public Employee changePassword(Integer currentId, String newPassword, String newPassword2);
 }
