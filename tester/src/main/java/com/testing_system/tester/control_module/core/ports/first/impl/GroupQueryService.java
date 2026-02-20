@@ -65,7 +65,7 @@ public class GroupQueryService implements GroupQueryUseCase {
     public List<Group> filterGroupByNumber(Integer currentNumber) {
 
         return getAllGroups().stream()
-                .filter(group -> group.getGroupNumber().substring(group.getGroupNumber().lastIndexOf("-")).equals(currentNumber.toString()))
+                .filter(group -> group.getGroupNumber().substring(group.getGroupNumber().lastIndexOf("-")+1, group.getGroupNumber().lastIndexOf("-")+2).equals(currentNumber.toString()))
                 .toList();
     }
 

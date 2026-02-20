@@ -2,7 +2,12 @@ package com.testing_system.tester.gateway.controllers;
 
 import com.testing_system.tester.control_module.core.ports.first.EmployeeRegistrationUseCase;
 import com.testing_system.tester.control_module.core.ports.first.StudentRegistrationUseCase;
-import com.testing_system.tester.control_module.infrastructure.dto.response.*;
+import com.testing_system.tester.control_module.infrastructure.dto.response.employee.EmployeeFullDTO;
+import com.testing_system.tester.control_module.infrastructure.dto.response.employee.EmployeeSaveDTO;
+import com.testing_system.tester.control_module.infrastructure.dto.response.group.GroupFullDTO;
+import com.testing_system.tester.control_module.infrastructure.dto.response.group.GroupSaveDTO;
+import com.testing_system.tester.control_module.infrastructure.dto.response.student.StudentFullDTO;
+import com.testing_system.tester.control_module.infrastructure.dto.response.student.StudentSaveDTO;
 import com.testing_system.tester.control_module.infrastructure.mappers.EmployeeMapper;
 import com.testing_system.tester.control_module.infrastructure.mappers.GroupMapper;
 import com.testing_system.tester.control_module.infrastructure.mappers.StudentMapper;

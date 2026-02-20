@@ -75,6 +75,7 @@ public class GroupCommandService implements GroupCommandUseCase {
 
 
     // Использует метод первичного порта, который кидает NoGroupException()
+    // Продумать как удалять тесты при отмене назначения
     @Override
     public Group fieldAssignDelete(String currentGroupNum, String currentField) {
 
@@ -86,6 +87,7 @@ public class GroupCommandService implements GroupCommandUseCase {
                     .formatted(currentGroupNum, currentField));
 
         currentGroup.removeField(currentField);
+
         secondPort.saveGroup(currentGroup);
         logger.info("Field{} was delete for the group {}", currentField, currentGroupNum);
         return currentGroup;

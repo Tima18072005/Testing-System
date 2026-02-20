@@ -2,9 +2,9 @@ package com.testing_system.tester.control_module.infrastructure.mappers;
 
 import com.testing_system.tester.control_module.core.domain.Group;
 import com.testing_system.tester.control_module.infrastructure.dto.db.GroupEntity;
-import com.testing_system.tester.control_module.infrastructure.dto.response.GroupFullDTO;
-import com.testing_system.tester.control_module.infrastructure.dto.response.GroupQueryDTO;
-import com.testing_system.tester.control_module.infrastructure.dto.response.GroupSaveDTO;
+import com.testing_system.tester.control_module.infrastructure.dto.response.group.GroupFullDTO;
+import com.testing_system.tester.control_module.infrastructure.dto.response.group.GroupQueryDTO;
+import com.testing_system.tester.control_module.infrastructure.dto.response.group.GroupSaveDTO;
 import org.springframework.stereotype.Component;
 
 /*

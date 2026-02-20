@@ -2,8 +2,8 @@ package com.testing_system.tester.control_module.infrastructure.mappers;
 
 import com.testing_system.tester.control_module.core.domain.Student;
 import com.testing_system.tester.control_module.infrastructure.dto.db.StudentEntity;
-import com.testing_system.tester.control_module.infrastructure.dto.response.StudentFullDTO;
-import com.testing_system.tester.control_module.infrastructure.dto.response.StudentSaveDTO;
+import com.testing_system.tester.control_module.infrastructure.dto.response.student.StudentFullDTO;
+import com.testing_system.tester.control_module.infrastructure.dto.response.student.StudentSaveDTO;
 import org.springframework.stereotype.Component;
 
 /*

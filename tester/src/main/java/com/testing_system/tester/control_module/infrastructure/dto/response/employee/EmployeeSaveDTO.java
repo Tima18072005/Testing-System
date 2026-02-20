@@ -1,4 +1,4 @@
-package com.testing_system.tester.control_module.infrastructure.dto.response;
+package com.testing_system.tester.control_module.infrastructure.dto.response.employee;
 
 
 

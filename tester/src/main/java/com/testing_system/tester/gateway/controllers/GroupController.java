@@ -2,8 +2,9 @@ package com.testing_system.tester.gateway.controllers;
 
 import com.testing_system.tester.control_module.core.ports.first.GroupCommandUseCase;
 import com.testing_system.tester.control_module.core.ports.first.GroupQueryUseCase;
-import com.testing_system.tester.control_module.infrastructure.dto.response.GroupFullDTO;
-import com.testing_system.tester.control_module.infrastructure.dto.response.GroupQueryDTO;
+import com.testing_system.tester.control_module.infrastructure.dto.response.group.AssignationDTO;
+import com.testing_system.tester.control_module.infrastructure.dto.response.group.GroupFullDTO;
+import com.testing_system.tester.control_module.infrastructure.dto.response.group.GroupQueryDTO;
 import com.testing_system.tester.control_module.infrastructure.mappers.GroupMapper;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -61,6 +62,7 @@ public class GroupController {
     }
 
 
+
     @GetMapping("/get/filter/by-number/{number}")
     public ResponseEntity<List<GroupQueryDTO>> getByNumber( @PathVariable("number") Integer currentNumber){
 
@@ -68,31 +70,34 @@ public class GroupController {
         return ResponseEntity.status(HttpStatus.FOUND).body(groupsByNumber.stream().map(mapper::domainToQueryDTO).toList());
     }
 
-    @PostMapping("/assign/test/{number}")
-    public ResponseEntity<GroupFullDTO> assignTest(@PathVariable("number") String groupNum, @RequestBody String testFieldName, @RequestBody String testName){
+    // Post-методы не протестированы
 
-        var changedGroup = commandFirstPort.testAssign(groupNum, testFieldName, testName);
+    @PostMapping("/assign/test/{number}")
+    public ResponseEntity<GroupFullDTO> assignTest(@PathVariable("number") String groupNum, @RequestBody AssignationDTO currentDTO){
+
+        var changedGroup = commandFirstPort.testAssign(groupNum, currentDTO.testName(), currentDTO.fieldName());
         return ResponseEntity.status(HttpStatus.OK).body(mapper.domainToFullDTO(changedGroup));
     }
 
-    @PostMapping("/assign/field/{number}")
-    public ResponseEntity<GroupFullDTO> assignField(@PathVariable("number") String groupNum,@RequestBody String testFieldName ){
 
-        var changedGroup = commandFirstPort.fieldAssign(groupNum, testFieldName);
+    @PostMapping("/assign/field/{number}")
+    public ResponseEntity<GroupFullDTO> assignField(@PathVariable("number") String groupNum,@RequestBody AssignationDTO currentDTO ){
+
+        var changedGroup = commandFirstPort.fieldAssign(groupNum, currentDTO.fieldName());
         return ResponseEntity.status(HttpStatus.OK).body(mapper.domainToFullDTO(changedGroup));
     }
 
     @PostMapping("/delete-assign/test/{number}")
-    public ResponseEntity<GroupFullDTO> deleteAssignTest(@PathVariable("number") String groupNum,@RequestBody String testName ){
+    public ResponseEntity<GroupFullDTO> deleteAssignTest(@PathVariable("number") String groupNum,@RequestBody AssignationDTO currentDTO){
 
-        var changedGroup = commandFirstPort.testAssignDelete(groupNum, testName);
+        var changedGroup = commandFirstPort.testAssignDelete(groupNum, currentDTO.testName());
         return ResponseEntity.status(HttpStatus.OK).body(mapper.domainToFullDTO(changedGroup));
     }
 
     @PostMapping("/delete-assign/field/{number}")
-    public ResponseEntity<GroupFullDTO> deleteAssignField(@PathVariable("number") String groupNum,@RequestBody String testFieldName ){
+    public ResponseEntity<GroupFullDTO> deleteAssignField(@PathVariable("number") String groupNum,@RequestBody AssignationDTO currentDTO ){
 
-        var changedGroup = commandFirstPort.fieldAssignDelete(groupNum, testFieldName);
+        var changedGroup = commandFirstPort.fieldAssignDelete(groupNum, currentDTO.fieldName());
         return ResponseEntity.status(HttpStatus.OK).body(mapper.domainToFullDTO(changedGroup));
     }
 }

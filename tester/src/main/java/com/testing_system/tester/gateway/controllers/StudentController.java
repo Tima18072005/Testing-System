@@ -2,7 +2,8 @@ package com.testing_system.tester.gateway.controllers;
 
 
 import com.testing_system.tester.control_module.core.ports.first.StudentCommandUseCase;
-import com.testing_system.tester.control_module.infrastructure.dto.response.StudentFullDTO;
+import com.testing_system.tester.control_module.infrastructure.dto.response.group.ChangeGroupDTO;
+import com.testing_system.tester.control_module.infrastructure.dto.response.student.StudentFullDTO;
 import com.testing_system.tester.control_module.infrastructure.mappers.StudentMapper;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -64,14 +65,17 @@ public class StudentController {
         return ResponseEntity.status(HttpStatus.OK).body(mapper.domainToFullDTO(changedStudent));
     }
 
-    @PostMapping("/change-group/{id}")
-    public ResponseEntity<StudentFullDTO> changeStudentGroup(@PathVariable("id") Integer currentId, @RequestBody String newGroup){
 
-        var changedStudent = firstPort.changeGroup(currentId, newGroup);
+    @PostMapping("/change-group/{id}")
+    public ResponseEntity<StudentFullDTO> changeStudentGroup(@PathVariable("id") Integer currentId, @RequestBody ChangeGroupDTO currentDTO){
+
+        var changedStudent = firstPort.changeGroup(currentId, currentDTO.newGroup());
         return ResponseEntity.status(HttpStatus.OK).body(mapper.domainToFullDTO(changedStudent));
 
     }
 
+
+    // Не протестировано
     @PostMapping("/promote-students")
     public ResponseEntity<Void> promoteStudents(@RequestBody List<StudentFullDTO> studentsToPromote){
 

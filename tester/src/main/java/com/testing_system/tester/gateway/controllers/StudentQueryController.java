@@ -1,7 +1,7 @@
 package com.testing_system.tester.gateway.controllers;
 
 import com.testing_system.tester.control_module.core.ports.first.StudentQueryUseCase;
-import com.testing_system.tester.control_module.infrastructure.dto.response.StudentFullDTO;
+import com.testing_system.tester.control_module.infrastructure.dto.response.student.StudentFullDTO;
 import com.testing_system.tester.control_module.infrastructure.mappers.StudentMapper;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -50,7 +50,7 @@ public class StudentQueryController {
     }
 
 
-    @GetMapping("/by-group/{group}")
+    @GetMapping("/filter/by-group/{group}")
     public ResponseEntity<List<StudentFullDTO>> getStudentsByGroup( @PathVariable("group") String currentGroupNum){
 
         var groupStudents = firstPort.getStudentsByGroup(currentGroupNum);
@@ -58,14 +58,14 @@ public class StudentQueryController {
         return ResponseEntity.status(HttpStatus.FOUND).body(groupStudents.stream().map(mapper::domainToFullDTO).toList());
     }
 
-    @GetMapping("/by-full-name/{first-name}/{last-name}")
+    @GetMapping("/filter/by-full-name/{first-name}/{last-name}")
     public ResponseEntity<List<StudentFullDTO>> getStudentsByFullName(@PathVariable("first-name") String firstName, @PathVariable("last-name") String lastName){
 
         var studentsWithFullName = firstPort.getStudentByName(firstName, lastName);
         return ResponseEntity.status(HttpStatus.FOUND).body(studentsWithFullName.stream().map(mapper::domainToFullDTO).toList());
     }
 
-    @GetMapping("/by-first-name/{first-name}")
+    @GetMapping("/filter/by-first-name/{first-name}")
     public ResponseEntity<List<StudentFullDTO>> getStudentsByFirstName(@PathVariable("first-name") String firstName){
 
         var studentsWithFirstName = firstPort.getStudentByFirstName(firstName);
@@ -73,7 +73,7 @@ public class StudentQueryController {
     }
 
     // Не работает
-    @GetMapping("/by-last-name/{last-name}")
+    @GetMapping("/filter/by-last-name/{last-name}")
     public ResponseEntity<List<StudentFullDTO>> getStudentsByLastName(@PathVariable("last-name") String lastName){
 
         var studentsWithLastName = firstPort.getStudentByLastName(lastName);

@@ -3,7 +3,8 @@ package com.testing_system.tester.gateway.controllers;
 import com.testing_system.tester.control_module.core.domain.EmployeeStatus;
 import com.testing_system.tester.control_module.core.ports.first.EmployeeCommandUseCase;
 import com.testing_system.tester.control_module.core.ports.first.EmployeeQueryUseCase;
-import com.testing_system.tester.control_module.infrastructure.dto.response.EmployeeFullDTO;
+import com.testing_system.tester.control_module.infrastructure.dto.response.employee.ChangePasswordDTO;
+import com.testing_system.tester.control_module.infrastructure.dto.response.employee.EmployeeFullDTO;
 import com.testing_system.tester.control_module.infrastructure.mappers.EmployeeMapper;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -39,7 +40,7 @@ public class EmployeeController {
         this.mapper = mapper;
     }
 
-    @GetMapping("get/{id}")
+    @GetMapping("/get/by-id/{id}")
     public ResponseEntity<EmployeeFullDTO> getEmployeeById(@PathVariable("id") Integer currentId){
 
         var employeeToGet = queryFirstPort.findEmpById(currentId);
@@ -48,13 +49,13 @@ public class EmployeeController {
 
     // Добавить пагинацию
 
-    @GetMapping("/get-all")
+    @GetMapping("/get/all")
     public ResponseEntity<List<EmployeeFullDTO>> getAllEmployee(){
         var allEmployees = queryFirstPort.getAllEmployee();
         return ResponseEntity.status(HttpStatus.FOUND).body(allEmployees.stream().map(mapper::domainToFullDTO).toList());
     }
 
-    @GetMapping("get/{first-name}/{last-name}")
+    @GetMapping("/get/by-name/{first-name}/{last-name}")
     public ResponseEntity<List<EmployeeFullDTO>> getEmployeesByFullName(@PathVariable("first-name") String firstName, @PathVariable("last-name") String lastName){
 
         var employeesByFullName = queryFirstPort.findEmpByName(firstName, lastName);
@@ -62,7 +63,7 @@ public class EmployeeController {
         return ResponseEntity.status(HttpStatus.FOUND).body(employeesByFullName.stream().map(mapper::domainToFullDTO).toList());
     }
 
-    @GetMapping("get/{first-name}")
+    @GetMapping("/get/filter/by-first-name/{first-name}")
     public ResponseEntity<List<EmployeeFullDTO>> getEmployeesByFirstName(@PathVariable("first-name") String firstName){
 
         var employeeByFirstName = queryFirstPort.filterEmployeeByFirstName(firstName);
@@ -70,7 +71,7 @@ public class EmployeeController {
         return ResponseEntity.status(HttpStatus.FOUND).body(employeeByFirstName.stream().map(mapper::domainToFullDTO).toList());
     }
 
-    @GetMapping("get/{last-name}")
+    @GetMapping("/get/filter/by-last-name/{last-name}")
     public ResponseEntity<List<EmployeeFullDTO>> getEmployeesBySecondName(@PathVariable("last-name") String lastName){
 
         var employeeByLastName = queryFirstPort.filterEmployeeByLastName(lastName);
@@ -78,13 +79,14 @@ public class EmployeeController {
         return ResponseEntity.status(HttpStatus.FOUND).body(employeeByLastName.stream().map(mapper::domainToFullDTO).toList());
     }
 
-    @GetMapping("get/{status}")
+    @GetMapping("/get/filter/by-status/{status}")
     public ResponseEntity<List<EmployeeFullDTO>> getEmployeesByStatus(@PathVariable("status") EmployeeStatus currentStatus){
 
         var employeeByStatus = queryFirstPort.filterEmpByStatus(currentStatus);
 
         return ResponseEntity.status(HttpStatus.FOUND).body(employeeByStatus.stream().map(mapper::domainToFullDTO).toList());
     }
+
 
     @PostMapping("/level-up/{id}")
     public ResponseEntity<EmployeeFullDTO> employeeLevelUp(@PathVariable("id") Integer currentId){
@@ -103,10 +105,10 @@ public class EmployeeController {
     }
 
     @PostMapping("/change-password/{id}")
-    public ResponseEntity<EmployeeFullDTO> changePassword(@PathVariable("id") Integer currentId, @RequestBody String newPassword1,@RequestBody String newPassword2){
+    public ResponseEntity<EmployeeFullDTO> changePassword(@PathVariable("id") Integer currentId, @RequestBody ChangePasswordDTO currentDTO){
 
         // Пароли нужно хешировать
-        var changedEmployee = commandFirstPort.changePassword(currentId, newPassword1, newPassword2);
+        var changedEmployee = commandFirstPort.changePassword(currentId, currentDTO.newPassword1(), currentDTO.newPassword2());
 
         return ResponseEntity.status(HttpStatus.OK).body(mapper.domainToFullDTO(changedEmployee));
     }

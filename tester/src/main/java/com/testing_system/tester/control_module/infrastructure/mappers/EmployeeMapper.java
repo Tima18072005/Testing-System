@@ -3,8 +3,8 @@ package com.testing_system.tester.control_module.infrastructure.mappers;
 import com.testing_system.tester.control_module.core.domain.Employee;
 import com.testing_system.tester.control_module.core.domain.EmployeeStatus;
 import com.testing_system.tester.control_module.infrastructure.dto.db.EmployeeEntity;
-import com.testing_system.tester.control_module.infrastructure.dto.response.EmployeeFullDTO;
-import com.testing_system.tester.control_module.infrastructure.dto.response.EmployeeSaveDTO;
+import com.testing_system.tester.control_module.infrastructure.dto.response.employee.EmployeeFullDTO;
+import com.testing_system.tester.control_module.infrastructure.dto.response.employee.EmployeeSaveDTO;
 import org.springframework.stereotype.Component;
 
 /*

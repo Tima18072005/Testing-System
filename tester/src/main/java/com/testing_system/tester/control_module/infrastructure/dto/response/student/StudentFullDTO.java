@@ -1,18 +1,17 @@
-package com.testing_system.tester.control_module.infrastructure.dto.response;
+package com.testing_system.tester.control_module.infrastructure.dto.response.student;
 
 import com.testing_system.tester.control_module.core.domain.StudentStatus;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import java.time.LocalDate;
-import java.time.Month;
 
 /*
-DTO для создания студента
+DTO подробного просмотра студент
  */
 @NoArgsConstructor
 @Setter
-public class StudentSaveDTO {
+public class StudentFullDTO {
 
     private Integer studentId;
 
@@ -24,12 +23,18 @@ public class StudentSaveDTO {
 
     private String studentGroup;
 
-    public StudentSaveDTO(
+    private StudentStatus studStatus;
+
+    private LocalDate startLearningDate;
+
+    public StudentFullDTO(
             Integer currentStudentId,
             String currentFirstName,
             String currentLastName,
             String currentPatronymic,
-            String currentStudentGroup
+            String currentStudentGroup,
+            StudentStatus currentStatus,
+            LocalDate currentDate
     )
     {
         this.studentId = currentStudentId;
@@ -37,24 +42,28 @@ public class StudentSaveDTO {
         this.lastName = currentLastName;
         this.patronymic = currentPatronymic;
         this.studentGroup = currentStudentGroup;
-
+        this.studStatus = currentStatus;
+        this.startLearningDate = currentDate;
 
 
     }
 
-    // Конструктор для студентов, у которых нет отчества
-    public StudentSaveDTO(
+    public StudentFullDTO(
             Integer currentStudentId,
             String currentFirstName,
             String currentLastName,
-            String currentStudentGroup
-
+            String currentStudentGroup,
+            StudentStatus currentStatus,
+            LocalDate currentDate
     )
     {
         this.studentId = currentStudentId;
         this.firstName = currentFirstName;
         this.lastName = currentLastName;
         this.studentGroup = currentStudentGroup;
+        this.studStatus = currentStatus;
+        this.startLearningDate = currentDate;
+
 
     }
 
@@ -76,5 +85,13 @@ public class StudentSaveDTO {
 
     public String getStudentGroup() {
         return studentGroup;
+    }
+
+    public StudentStatus getStudStatus() {
+        return studStatus;
+    }
+
+    public LocalDate getStartLearningDate() {
+        return startLearningDate;
     }
 }
