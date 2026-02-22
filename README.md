@@ -15,7 +15,7 @@ WEB-приложение, предназначенное для проведен
 
 - Java 21
 - Maven
-- Spring Boot (WEB, DATA JPA, SECURITY)
+- Spring Boot (WEB-starter, DATA-JPA-starter, SECURITY-starter)
 - Postgre SQL
 
 ### Архитектура:
