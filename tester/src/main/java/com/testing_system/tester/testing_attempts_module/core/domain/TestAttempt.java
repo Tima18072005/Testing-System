@@ -22,7 +22,7 @@ public class TestAttempt {
 
     private final String IP;
 
-    // Конструктор
+
     public TestAttempt(
             Integer currentAttemptId,
             Integer currentTesterId,

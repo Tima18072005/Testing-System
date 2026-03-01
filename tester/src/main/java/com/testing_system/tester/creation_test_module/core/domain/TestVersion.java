@@ -11,7 +11,7 @@ public class TestVersion {
 
     private final String testName;
 
-    private final Integer versionAuthor;// В диаграмме прямая ссылка на объект Employee, исправить
+    private final Integer versionAuthor;
 
     private VersionStatus versionStatus;
 

@@ -72,7 +72,7 @@ public class StudentQueryController {
         return ResponseEntity.status(HttpStatus.FOUND).body(studentsWithFirstName.stream().map(mapper::domainToFullDTO).toList());
     }
 
-    // Не работает
+
     @GetMapping("/filter/by-last-name/{last-name}")
     public ResponseEntity<List<StudentFullDTO>> getStudentsByLastName(@PathVariable("last-name") String lastName){
 

@@ -10,6 +10,8 @@ import com.testing_system.tester.testing_attempts_module.core.ports.second.Testi
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.stereotype.Service;
+
 import java.time.LocalDate;
 
 
@@ -18,7 +20,7 @@ import java.time.LocalDate;
 /*
 Сервис-оркестратор для правил проведения тестирования
  */
-
+@Service
 public class TestingRulesService implements TestingRulesUseCase {
 
     // Реализация использует вторичные порты
@@ -38,12 +40,21 @@ public class TestingRulesService implements TestingRulesUseCase {
     }
 
 
-
+    // Максимально разрешённое количество попыток пока не ограниченно
     @Override
     public void makeTestingRules(TestingRules currentTestRules) {
 
         if (secondPort.getTestRules(currentTestRules.getTestName()).isPresent())
             throw new IllegalStateException("Error! This rules is exist! Test name: "
+                    + currentTestRules.getTestName());
+
+        if (currentTestRules.getAllAttempts() < 1 || currentTestRules.getDayAttempts()< 1)
+
+            throw new IllegalArgumentException("Error! Incorrect rules! Test must have minimal 1 attempt! Test name: "
+                    + currentTestRules.getTestName());
+
+        if (currentTestRules.getAllAttempts() < currentTestRules.getDayAttempts())
+            throw new IllegalArgumentException("Error! Incorrect rules! The number of attempts per day should not exceed the total number of attempts! Test name: "
                     + currentTestRules.getTestName());
 
         secondPort.saveRules(currentTestRules);
@@ -59,6 +70,7 @@ public class TestingRulesService implements TestingRulesUseCase {
         if (secondPort.getTestRules(currentTestName).isEmpty())
             throw new IllegalStateException("Error! You can't delete non-existent rules. Test");
 
+
         secondPort.deleteRules(currentTestName);
     }
 
@@ -70,8 +82,8 @@ public class TestingRulesService implements TestingRulesUseCase {
 
         var currentRules = getTestingRules(currentTestName);
 
-        if (newNumber < 1 || newNumber> currentRules.getAllAttempts())
-            throw new IllegalArgumentException("Error! Incorrect number %n for day attempts!"
+        if (newNumber < 1 || newNumber > currentRules.getAllAttempts())
+            throw new IllegalArgumentException("Error! Incorrect number %d for day attempts!"
                     .formatted(newNumber));
 
         currentRules.setDayAttempts(newNumber);
@@ -86,8 +98,8 @@ public class TestingRulesService implements TestingRulesUseCase {
 
         var currentRules = getTestingRules(currentTestName);
 
-        if (newNumber < 1 || newNumber> 10)
-            throw new IllegalArgumentException("Error! Incorrect number %n for all attempts!"
+        if (newNumber < 1 || newNumber < currentRules.getDayAttempts())
+            throw new IllegalArgumentException("Error! Incorrect number %d for all attempts!"
                     .formatted(newNumber));
 
         currentRules.setAllAttempts(newNumber);

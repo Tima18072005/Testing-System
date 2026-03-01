@@ -70,7 +70,7 @@ public class GroupController {
         return ResponseEntity.status(HttpStatus.FOUND).body(groupsByNumber.stream().map(mapper::domainToQueryDTO).toList());
     }
 
-    // Post-методы не протестированы
+    // Post-методы протестированы, исправить некорректность при удалении предмета из назначения
 
     @PostMapping("/assign/test/{number}")
     public ResponseEntity<GroupFullDTO> assignTest(@PathVariable("number") String groupNum, @RequestBody AssignationDTO currentDTO){
@@ -94,10 +94,11 @@ public class GroupController {
         return ResponseEntity.status(HttpStatus.OK).body(mapper.domainToFullDTO(changedGroup));
     }
 
+    // В dto передается еще и список тестов для удаления
     @PostMapping("/delete-assign/field/{number}")
     public ResponseEntity<GroupFullDTO> deleteAssignField(@PathVariable("number") String groupNum,@RequestBody AssignationDTO currentDTO ){
 
-        var changedGroup = commandFirstPort.fieldAssignDelete(groupNum, currentDTO.fieldName());
+        var changedGroup = commandFirstPort.fieldAssignDelete(groupNum, currentDTO.fieldName(), currentDTO.testForDelete());
         return ResponseEntity.status(HttpStatus.OK).body(mapper.domainToFullDTO(changedGroup));
     }
 }

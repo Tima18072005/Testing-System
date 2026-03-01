@@ -1,6 +1,10 @@
 package com.testing_system.tester.testing_attempts_module.core.domain;
 
-// Доменная модель правил прохождения теста
+import java.util.Objects;
+
+/*
+ Доменная модель правил прохождения теста
+ */
 public class TestingRules {
 
     private String testName;
@@ -16,18 +20,18 @@ public class TestingRules {
             Integer currentAllAttempts)
     {
         this.testName = currentTestName;
-        this.dayAttempts = currentDayAttempts;
-        this.allAttempts = currentAllAttempts;
+
+
+        this.dayAttempts = Objects.requireNonNullElse(currentDayAttempts, 1);
+
+
+        this.allAttempts = Objects.requireNonNullElse(currentAllAttempts, 3);
     }
 
     // Геттеры и сеттеры
 
     public String getTestName() {
         return testName;
-    }
-
-    public void setTestName(String testName) {
-        this.testName = testName;
     }
 
     public Integer getDayAttempts() {

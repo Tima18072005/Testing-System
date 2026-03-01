@@ -77,7 +77,7 @@ public class GroupCommandService implements GroupCommandUseCase {
     // Использует метод первичного порта, который кидает NoGroupException()
     // Продумать как удалять тесты при отмене назначения
     @Override
-    public Group fieldAssignDelete(String currentGroupNum, String currentField) {
+    public Group fieldAssignDelete(String currentGroupNum, String currentField, List<String> testForDelete) {
 
         var currentGroup = firstPort.getGroupByName(currentGroupNum);
 
@@ -86,10 +86,15 @@ public class GroupCommandService implements GroupCommandUseCase {
             throw new IllegalArgumentException("Error! You can't delete not assigned field! Group name: %s Field name: %s"
                     .formatted(currentGroupNum, currentField));
 
+        if (!testForDelete.isEmpty()) {
+
+            for (String testName: testForDelete) currentGroup.removeTest(testName);
+        }
+
         currentGroup.removeField(currentField);
 
         secondPort.saveGroup(currentGroup);
-        logger.info("Field{} was delete for the group {}", currentField, currentGroupNum);
+        logger.info("Field{} was delete for the group {} with {} tests", currentField, currentGroupNum, testForDelete.size());
         return currentGroup;
     }
 

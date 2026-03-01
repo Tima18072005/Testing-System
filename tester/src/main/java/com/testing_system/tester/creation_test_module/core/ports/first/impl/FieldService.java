@@ -4,12 +4,14 @@ import com.testing_system.tester.creation_test_module.core.domain.Field;
 import com.testing_system.tester.creation_test_module.core.ports.first.FieldUseCase;
 import com.testing_system.tester.creation_test_module.core.ports.first.exceptions.NoFieldException;
 import com.testing_system.tester.creation_test_module.core.ports.second.FieldDrivenUseCase;
+import org.springframework.stereotype.Service;
 
 import java.util.List;
 
 /*
 Сервис-оркестратор, работа с учебными дисциплинами
  */
+@Service
 public class FieldService implements FieldUseCase {
 
     // Реализация использует только вторичный порт

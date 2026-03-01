@@ -5,6 +5,7 @@ import com.testing_system.tester.control_module.core.domain.EmployeeStatus;
 import com.testing_system.tester.control_module.infrastructure.dto.db.EmployeeEntity;
 import com.testing_system.tester.control_module.infrastructure.dto.response.employee.EmployeeFullDTO;
 import com.testing_system.tester.control_module.infrastructure.dto.response.employee.EmployeeSaveDTO;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Component;
 
 /*
@@ -57,12 +58,15 @@ public class EmployeeMapper {
     // При регистрации пароль хешируется в маппинге, программа не работает с самими паролями в чистом виде
 
     public Employee saveDTOToDomain(EmployeeSaveDTO currentDTO){
+
+        BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
+
         if (currentDTO.getPatronymic()==null) return new Employee(
                 currentDTO.getEmpId(),
                 currentDTO.getFirstName(),
                 currentDTO.getLastName(),
                 EmployeeStatus.TEACHER,
-                currentDTO.getHashPass()
+                encoder.encode(currentDTO.getHashPass())
         );
 
         return new Employee(
@@ -71,16 +75,19 @@ public class EmployeeMapper {
                 currentDTO.getLastName(),
                 currentDTO.getPatronymic(),
                 EmployeeStatus.TEACHER,
-                currentDTO.getHashPass());
+                encoder.encode(currentDTO.getHashPass()));
     }
 
     public Employee saveAdminDTOToDomain(EmployeeSaveDTO currentDTO){
+
+        BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
+
         if (currentDTO.getPatronymic()==null) return new Employee(
                 currentDTO.getEmpId(),
                 currentDTO.getFirstName(),
                 currentDTO.getLastName(),
                 EmployeeStatus.ADMIN,
-                currentDTO.getHashPass()
+                encoder.encode(currentDTO.getHashPass())
         );
 
         return new Employee(
@@ -89,7 +96,7 @@ public class EmployeeMapper {
                 currentDTO.getLastName(),
                 currentDTO.getPatronymic(),
                 EmployeeStatus.ADMIN,
-                currentDTO.getHashPass());
+                encoder.encode(currentDTO.getHashPass()));
     }
 
     public EmployeeFullDTO domainToFullDTO(Employee currentEmployee){

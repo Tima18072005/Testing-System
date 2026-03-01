@@ -4,6 +4,7 @@ import com.testing_system.tester.testing_attempts_module.core.domain.TestAttempt
 import com.testing_system.tester.testing_attempts_module.core.ports.first.AttemptHistoryUseCase;
 import com.testing_system.tester.testing_attempts_module.core.ports.first.exceptions.NoHistoryException;
 import com.testing_system.tester.testing_attempts_module.core.ports.second.TestAttemptDrivenUseCase;
+import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Map;
@@ -13,6 +14,7 @@ import java.util.stream.Collectors;
 /*
  Сервис-оркестратор для доступа к истории прохождений
  */
+@Service
 public class AttemptHistoryService implements AttemptHistoryUseCase {
 
     // Реализация зависит от вторичного порта

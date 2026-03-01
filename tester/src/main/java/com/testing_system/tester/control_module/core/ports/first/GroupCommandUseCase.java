@@ -19,7 +19,7 @@ public interface GroupCommandUseCase {
 
     public Group testAssign(String currentGroupNum, String currentTest, String currentTestField);
 
-    public Group fieldAssignDelete(String currentGroupNum, String currentField);
+    public Group fieldAssignDelete(String currentGroupNum, String currentField, List<String> testForDelete);
 
     public Group testAssignDelete(String currentGroupNum, String currentTest);
 

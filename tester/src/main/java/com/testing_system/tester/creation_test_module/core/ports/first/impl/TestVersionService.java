@@ -9,6 +9,7 @@ import com.testing_system.tester.creation_test_module.core.ports.first.exception
 import com.testing_system.tester.creation_test_module.core.ports.second.TestVersionDrivenUseCase;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
 import java.util.*;
@@ -18,6 +19,7 @@ import java.util.stream.Collectors;
 /*
 Сервис-оркестратор для работы с версиями теста
  */
+@Service
 public class TestVersionService implements TestVersionUseCase {
 
 
@@ -168,7 +170,7 @@ public class TestVersionService implements TestVersionUseCase {
 
         currentVersion.setDraft();
 
-        secondPort.changeMetadata(currentVersion);
+        secondPort.saveTestVersion(currentVersion);
         logger.info("Metadata for {} was successfully changed! Version {} is draft", currentVersion.getTestName(), currentVersionId);
     }
 
@@ -185,7 +187,7 @@ public class TestVersionService implements TestVersionUseCase {
 
         currentVersion.setReady();
 
-        secondPort.changeMetadata(currentVersion);
+        secondPort.saveTestVersion(currentVersion);
         logger.info("Metadata for {} was successfully changed! Version {} is ready", currentVersion.getTestName(), currentVersionId);
 
     }

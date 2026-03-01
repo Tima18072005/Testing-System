@@ -3,7 +3,8 @@ package com.testing_system.tester.creation_test_module.core.ports.first.impl;
 import com.testing_system.tester.creation_test_module.core.domain.AnswerStatus;
 import com.testing_system.tester.creation_test_module.core.domain.MarkValues;
 import com.testing_system.tester.creation_test_module.core.ports.first.MarkRulesUseCase;
-import com.testing_system.tester.creation_test_module.core.ports.second.AnswerDrivenUseCase;
+import com.testing_system.tester.creation_test_module.core.ports.second.TestVersionDrivenUseCase;
+import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Map;
@@ -11,12 +12,13 @@ import java.util.Map;
 /*
  Сервис-оркестратор для оценивания
  */
+@Service
 public class MarkRulesService implements MarkRulesUseCase {
 
     // Реализация использует вторичный порт
-    private final AnswerDrivenUseCase secondPort;
+    private final TestVersionDrivenUseCase secondPort;
 
-    public MarkRulesService(AnswerDrivenUseCase secondPort) {
+    public MarkRulesService(TestVersionDrivenUseCase secondPort) {
         this.secondPort = secondPort;
     }
 

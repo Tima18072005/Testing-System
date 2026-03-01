@@ -24,8 +24,12 @@ public interface TestVersionDrivenUseCase {
 
     public void saveTestVersion(TestVersion currentTestVersion, Map<Question, List<Answer>> versionContent);
 
-    public void changeMetadata(TestVersion newMetaData);
+    // Изменение на чистовик/черновик
+    public void saveTestVersion(TestVersion newMetaData);
 
     public void deleteTestVersion(Integer currentTestVersionId);
+
+    // Вторчный порт для доступа к ответам для расчёта оценки
+    public List<Answer> getAnswers(List<Integer> currentAnswerIds);
 
 }

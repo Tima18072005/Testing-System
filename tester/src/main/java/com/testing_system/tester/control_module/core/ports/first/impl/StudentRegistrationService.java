@@ -57,7 +57,7 @@ public class StudentRegistrationService implements StudentRegistrationUseCase {
 
         if(!currentGroup.contains("-")) return false;
 
-        var number = currentGroup.substring(currentGroup.lastIndexOf("-"));
+        var number = currentGroup.substring(currentGroup.lastIndexOf("-")+1);
 
         return number.length() == 3;
     }

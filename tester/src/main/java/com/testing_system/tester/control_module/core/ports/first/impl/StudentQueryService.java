@@ -83,7 +83,7 @@ public class StudentQueryService implements StudentQueryUseCase{
     @Override
     public List<Student> getStudentByLastName(String currentSecondName) {
         return getAllStudents().stream().filter(
-                student -> student.getFirstName()
+                student -> student.getLastName()
                         .equals(currentSecondName)).toList();
     }
 

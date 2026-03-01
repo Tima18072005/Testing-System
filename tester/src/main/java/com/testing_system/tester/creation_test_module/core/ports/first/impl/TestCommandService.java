@@ -7,11 +7,13 @@ import com.testing_system.tester.creation_test_module.core.ports.first.TestQuery
 import com.testing_system.tester.creation_test_module.core.ports.second.TestDrivenUseCase;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.stereotype.Service;
 
 
 /*
 Сервис-оркестратор для работы с метаданными тестов
  */
+@Service
 public class TestCommandService implements TestCommandUseCase {
 
     // Реализация использует перввичные и вторичные порты
