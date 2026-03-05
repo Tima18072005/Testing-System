@@ -47,7 +47,6 @@ public class EmployeeController {
         return ResponseEntity.status(HttpStatus.FOUND).body(mapper.domainToFullDTO(employeeToGet));
     }
 
-    // Добавить пагинацию
 
     @GetMapping("/get/all")
     public ResponseEntity<List<EmployeeFullDTO>> getAllEmployee(){

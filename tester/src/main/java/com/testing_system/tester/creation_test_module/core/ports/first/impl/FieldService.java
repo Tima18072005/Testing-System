@@ -40,12 +40,13 @@ public class FieldService implements FieldUseCase {
 
 
     @Override
-    public void makeNewField(Field currentField) {
+    public Field makeNewField(Field currentField) {
 
         if (findField(currentField.getFieldName()))
             throw new IllegalArgumentException("Error! This field is exist! Field name: " + currentField.getFieldName());
 
         secondPort.saveField(currentField);
+        return currentField;
     }
 
     @Override

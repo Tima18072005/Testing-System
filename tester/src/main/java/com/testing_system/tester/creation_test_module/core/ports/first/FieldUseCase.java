@@ -23,7 +23,7 @@ public interface FieldUseCase {
 
     public Field getFieldByName(String currentFieldName);
 
-    public void makeNewField(Field currentField);
+    public Field makeNewField(Field currentField);
 
     public void deleteField(String currentFieldName);
 
