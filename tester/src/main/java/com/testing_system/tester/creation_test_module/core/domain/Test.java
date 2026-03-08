@@ -18,14 +18,8 @@ public class Test {
 
     private List<Integer> co_authorsIds;
 
-    // Конструктор для первого создания
-    public Test(String currentTestName, String currentField, Integer currentAuthorId){
-        this.testName = currentTestName;
-        this.field = currentField;
-        this.authorId = currentAuthorId;
-        this.questionBatch = 10;// Значение по умолчанию
-        this.co_authorsIds = new ArrayList<>();
-    }
+
+
 
     // Конструктор для доступа
     public Test(String currentTestName, String currentField, Integer currentAuthorId, Integer currentBatch, List<Integer> co_authorsIds){

@@ -41,12 +41,29 @@ public class TestAttempt {
         this.IP = currentIP;
     }
 
+    public TestAttempt(
+
+            Integer currentTesterId,
+            String currentTestName,
+            Integer currentMark, Integer mark5,
+            LocalDate currentDate,
+            String currentIP
+    )
+    {
+        this.attemptId = null;
+        this.testerId = currentTesterId;
+        this.testName = currentTestName;
+        this.mark = currentMark;
+        this.mark5 = mark5;
+        this.date = currentDate;
+        this.IP = currentIP;
+    }
+
     // Геттеры
 
     public Integer getAttemptId() {
         return attemptId;
     }
-
 
     public Integer getTesterId() {
         return testerId;

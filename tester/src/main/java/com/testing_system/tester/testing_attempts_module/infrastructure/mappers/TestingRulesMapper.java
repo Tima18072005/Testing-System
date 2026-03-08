@@ -2,6 +2,7 @@ package com.testing_system.tester.testing_attempts_module.infrastructure.mappers
 
 import com.testing_system.tester.testing_attempts_module.core.domain.TestingRules;
 import com.testing_system.tester.testing_attempts_module.infrastructure.dto.db.TestingRulesEntity;
+import com.testing_system.tester.testing_attempts_module.infrastructure.dto.response.TestingRulesDTO;
 import org.springframework.stereotype.Component;
 
 /*
@@ -16,6 +17,15 @@ public class TestingRulesMapper {
     }
 
     public TestingRulesEntity domainToEntity(TestingRules currentRules){
-        return new TestingRulesEntity( currentRules.getDayAttempts(), currentRules.getAllAttempts());
+        return new TestingRulesEntity(currentRules.getTestName() ,currentRules.getDayAttempts(), currentRules.getAllAttempts());
+    }
+
+    public TestingRulesDTO domainToDTO(TestingRules currentRules){
+        return new TestingRulesDTO(currentRules.getTestName(), currentRules.getDayAttempts(), currentRules.getAllAttempts());
+    }
+
+    public TestingRules DTOToDomain(TestingRulesDTO currentDTO){
+
+        return new TestingRules(currentDTO.testName(), currentDTO.dayAttempts(), currentDTO.allAttempts());
     }
 }

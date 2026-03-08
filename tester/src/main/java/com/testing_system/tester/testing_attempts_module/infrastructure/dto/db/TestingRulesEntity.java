@@ -12,7 +12,6 @@ import lombok.*;
 @Entity
 @Table(name = "testing_rules")
 @NoArgsConstructor
-@AllArgsConstructor
 @Setter
 public class TestingRulesEntity {
 
@@ -26,7 +25,9 @@ public class TestingRulesEntity {
     @Column(name ="all_attempts", nullable = false)
     private Integer allAttempts;
 
-    public TestingRulesEntity(Integer dayAttempts, Integer allAttempts) {
+    public TestingRulesEntity(String currentTestName, Integer dayAttempts, Integer allAttempts) {
+
+        this.testName = currentTestName;
         this.dayAttempts = dayAttempts;
         this.allAttempts = allAttempts;
     }

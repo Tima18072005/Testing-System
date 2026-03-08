@@ -89,7 +89,7 @@ public class AttemptHistoryService implements AttemptHistoryUseCase {
     }
 
     @Override
-    public Map.Entry<List<String>, List<String>> testsFilter(Integer currentStudentId, List<String> currentTestsAssignations) {
+    public Map.Entry<List<String>, List<String>>  testsFilter(Integer currentStudentId, List<String> currentTestsAssignations) {
 
         // Хеш-мапа (ключ - имя теста, значение - список с прохождениями)
         Map<String, List<TestAttempt>> allAttempts = currentTestsAssignations.stream()

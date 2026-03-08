@@ -38,13 +38,14 @@ public class TestingRules {
         return dayAttempts;
     }
 
+    public Integer getAllAttempts() {
+        return allAttempts;
+    }
+
     public void setDayAttempts(Integer dayAttempts) {
         this.dayAttempts = dayAttempts;
     }
 
-    public Integer getAllAttempts() {
-        return allAttempts;
-    }
 
     public void setAllAttempts(Integer allAttempts) {
         this.allAttempts = allAttempts;
