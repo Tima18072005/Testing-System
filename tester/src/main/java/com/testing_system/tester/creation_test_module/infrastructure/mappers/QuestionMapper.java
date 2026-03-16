@@ -25,4 +25,11 @@ public class QuestionMapper {
     public QuestionDTO domainToDTO(Question currentQuestion){
         return new QuestionDTO(currentQuestion.getQuestionId(), currentQuestion.getVersionId(), currentQuestion.getDescription());
     }
+
+    public Question dtoToDomain(QuestionDTO currentDTO){
+        return new Question(
+                currentDTO.questionId(),
+                currentDTO.versionId(),
+                currentDTO.description());
+    }
 }

@@ -4,6 +4,7 @@ import com.testing_system.tester.creation_test_module.core.domain.Answer;
 import com.testing_system.tester.creation_test_module.infrastructure.dto.db.AnswerEntity;
 import com.testing_system.tester.creation_test_module.infrastructure.dto.db.QuestionEntity;
 import com.testing_system.tester.creation_test_module.infrastructure.dto.response.AnswerDTO;
+import com.testing_system.tester.creation_test_module.infrastructure.dto.response.AnswerToTestingDTO;
 import org.springframework.stereotype.Component;
 
 /*
@@ -23,5 +24,14 @@ public class AnswerMapper {
 
     public AnswerDTO domainToDTO(Answer currentAnswer){
         return new AnswerDTO(currentAnswer.getAnswerId(), currentAnswer.getQuestionId(), currentAnswer.getDescription(), currentAnswer.getAnswerStatus());
+    }
+
+    public AnswerToTestingDTO domainToTestingDTO(Answer currentAnswer){
+        return new AnswerToTestingDTO(currentAnswer.getAnswerId(), currentAnswer.getQuestionId(), currentAnswer.getDescription());
+    }
+
+    public Answer dtoToDomain(AnswerDTO currentDTO){
+
+        return new Answer(currentDTO.answerId(), currentDTO.questionId(), currentDTO.description(), currentDTO.answerStatus());
     }
 }

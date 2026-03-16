@@ -41,4 +41,13 @@ public class TestVersionMapper {
                 currentVersion.getVersionStatus(),
                 currentVersion.getCreationDate());
     }
+
+    public TestVersion dtoToDomain(TestVersionDTO currentDTO){
+
+        return new TestVersion(currentDTO.versionId(),
+                currentDTO.testName(),
+                currentDTO.versionAuthor(),
+                currentDTO.versionStatus(),
+                currentDTO.creationDate());
+    }
 }

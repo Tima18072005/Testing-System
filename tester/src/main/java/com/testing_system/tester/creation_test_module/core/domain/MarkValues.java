@@ -1,6 +1,6 @@
 package com.testing_system.tester.creation_test_module.core.domain;
 
-import java.util.List;
+
 import java.util.Map;
 
 // Значения оценок в 100-бальной и 5-бальной системах

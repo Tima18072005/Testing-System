@@ -11,5 +11,8 @@ DTO только с метаданными
 public record TestVersionDTO(Integer versionId, String testName, Integer versionAuthor, VersionStatus versionStatus,
                              LocalDate creationDate) {
 
+    public TestVersionDTO(String testName, Integer versionAuthor, VersionStatus versionStatus,LocalDate creationDate){
+        this(null, testName, versionAuthor, versionStatus, creationDate);
+    }
 
 }
